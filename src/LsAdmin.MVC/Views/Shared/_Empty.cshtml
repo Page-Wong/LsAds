@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Http
+@using LsAdmin.Utility.Convert
+@using LsAdmin.Application.UserApp.Dtos
+
+@{
+    var user = ByteConvertHelper.Bytes2Object<UserDto>(Context.Session.Get("CurrentUser"));
+    var avatar = "data:image/png;base64," + Convert.ToBase64String(user.Avatar);
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>权限管理系统</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" charset="utf-8">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css">
+    <!--皮肤-->
+    <link rel="stylesheet" href="~/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="~/css/AdminLTE.css">
+    @RenderSection("css", false)
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+            <nav class="navbar navbar-static-top">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a href="/Home" class="navbar-brand"><b>Ls</b>Ads</a>
+                </div>
+                <!-- Navbar Right Menu -->
+                @await Component.InvokeAsync("NavbarRightMenu")
+            </nav>
+        </header>
+        <!-- Full Width Column -->
+        <div class="content-wrapper">
+            <div class="container">
+                <!-- Main content -->
+                <section class="content">
+                    @RenderBody()
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        @await Component.InvokeAsync("MainFooter")
+    </div>
+    <!-- ./wrapper -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/layer/layer.js"></script>
+    <script src="~/js/app.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

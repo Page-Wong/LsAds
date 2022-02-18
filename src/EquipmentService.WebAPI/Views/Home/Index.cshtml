@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<LsAdmin.Application.EquipmentApp.Dtos.ActiveEquipmentDto>
+
+@foreach (var item in Model) {
+<div>
+    {<span>@item.Token , @item.EquipmentId , @item.DeviceId , @item.OnlineTime , @item.LastConnectTime</span>}
+    <button onclick="sendInstruction('@item.EquipmentId')">发送</button>
+</div>
+}
+
+
+<button onclick="doConnect()">连接</button>
+<div id="output"></div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script language="javascript" type="text/javascript">
+    var socket;
+    //var uri = "ws://192.168.0.7:54418/ws?deviceId=bc75d5ef-f51f-11e7-8a39-005056975ad7";
+    var uri = "ws://192.168.0.7:54418/wsregist?deviceId=bc75d5ef-f51f-11e7-8a39-005056975ad7";
+    var output;
+    var text = '{methodName:"test"}';
+    function write(s) {
+        var p = document.createElement("p");
+        p.innerHTML = s;
+        output.appendChild(p);
+    }
+    function doConnect() {
+        socket = new WebSocket(uri);
+        socket.onopen = function (e) { write("opened " + uri); };
+        socket.onclose = function (e) { write("closed"); };
+        socket.onmessage = function (e) { write("Received: " + e.data); };
+        socket.onerror = function (e) { write("Error: " + e.data); };
+    }
+    function doSend() {
+        write("Sending: " + text);
+        socket.send(text);
+    }
+    function onInit() {
+        output = document.getElementById("output");
+        doConnect();
+    }
+    function sendInstruction(equipmentId) {
+        /*$.post("http://192.168.0.7:54418/Instruction/InstructionDefaultNotify",
+            {
+                equipmentId: equipmentId,
+                methodId: '7700439c-622d-11e8-a5a7-005056975ad7',
+                notifyUrl: '',
+                params: {},
+                remarks: 'remarks111',
+                createUserId:'05f225bd-49de-44ff-acef-cfeec22fd7fa'
+            });*/
+        $.post("http://192.168.0.7:54418/WebService/SendInstructionAsync",
+            {
+                equipmentId: equipmentId,
+                methodId: '08d5c771-5192-e61e-f123-a936f480e5b5',
+                notifyUrl: '',
+                params: '{}',
+                remarks: 'remarks111',
+                createUserId: '05f225bd-49de-44ff-acef-cfeec22fd7fa'
+            });        
+    }
+    window.onload = onInit;
+</script>

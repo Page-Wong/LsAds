@@ -1,0 +1,135 @@
+﻿@using LsAdmin.Application.NotifyApp.Dtos
+@using Microsoft.AspNetCore.Html
+@using LsAdmin.Utility.Convert
+@using LsAdmin.MVC.Models
+
+@model LsAdmin.Application.UserApp.Dtos.UserDto
+
+@{
+    var avatar = "data:image/png;base64," + Convert.ToBase64String(Model.Avatar);
+
+}
+
+<!-- Navbar Right Menu -->
+<div class="navbar-custom-menu">
+    <ul class="nav navbar-nav">
+        @if (!Model.UserRoles.Select(item => item.Role.Code).Contains(@RegisterModel.MARKETER_ROLE_NAME)) {
+        <li><a href="#" data-toggle="modal" data-target="#applyMarketerlModal"><i class="fa fa-tv"></i> 我想<strong class="text-orange">投广告</strong></a></li>
+}
+        @if (!Model.UserRoles.Select(item => item.Role.Code).Contains(@RegisterModel.PLACEOWNER_ROLE_NAME)) {
+        <li><a href="#" data-toggle="modal" data-target="#applyPlaceOwnerModal"><i class="fa fa-map"></i> 我想<strong class="text-orange">提供场所</strong></a></li>
+}
+        @if (!Model.UserRoles.Select(item => item.Role.Code).Contains(@RegisterModel.EQUIPMENTOWNER_ROLE_NAME)) {
+        <li><a href="#" data-toggle="modal" data-target="#applyEquipmentOwnerModal"><i class="fa fa-tablet"></i> 我想<strong class="text-orange">提供设备</strong></a></li>
+}
+        <!-- Notifications Menu -->
+        <li class="dropdown notifications-menu">
+            <!-- Menu toggle button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-commenting-o text-yellow"></i>&nbsp;&nbsp;联系客服
+            </a>
+            <ul class="dropdown-menu">
+                <li class="header">联系客服</li>
+                <li>
+                    <!-- Inner Menu: contains the notifications -->
+                    <ul class="menu">
+                        <li>
+                            <!-- start notification -->
+                            <a href="http://wpa.qq.com/msgrd?v=3&uin=2833378195&site=qq&menu=yes" target="_blank">
+                                <i class="fa fa-qq text-aqua"></i>&nbsp;QQ客服2833378195（点击打开QQ）
+                            </a>
+                            <a>
+                                <i class="fa fa-phone text-aqua"></i>&nbsp;电话号码：0769-22200203
+                            </a>
+                        </li>
+                        <!-- end notification -->
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <!-- Notifications: style can be found in dropdown.less -->
+        <li class="dropdown notifications-menu" id="rightMenuNotify">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                @{
+                if (ViewBag.unreadNotifyCount > 0) {
+                    <span class="label label-warning">@ViewBag.unreadNotifyCount</span>
+            }
+                }
+            </a>
+            <ul class="dropdown-menu" id="systemNotify">
+                <li class="header"><h4><i class="fa fa-bars text-aqua"></i> <strong>系统提醒</strong></h4></li>
+                <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                        @foreach (NotifyDto notify in ViewBag.notifyList) {
+                        string unRead = notify.Status == NotifyDto.STATUS_SENT ? "<small><span class='badge bg-blue'>未读</span></small> " : "<small><span class='text-gray'>已读</span></small> ";
+                        string foot = "" + unRead + " <small class='pull-right'><i class='fa fa-clock-o'></i> " + TimeConvertHelper.TimeDiffString(DateTime.Now, notify.SendTime.Value) + "</small>";
+                        @(new HtmlString($"<li class='list-group-item'><p><input type='text' hidden='hidden' name='notifyItem' value='{notify.Id}'>{notify.Message}</p>{foot}</li>"));
+                }
+                    </ul>
+                </li>
+                <li class="footer"><a href="/Notify/Index"><strong>查看所有提醒</strong></a></li>
+            </ul>
+        </li>
+
+        <!-- User Account Menu -->
+        <li class="dropdown user user-menu">
+            <!-- Menu Toggle Button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- The user image in the navbar-->
+                <img src="@avatar" class="user-image" alt="User Image">
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span class="hidden-xs">@Model.Name</span>
+            </a>
+            <ul class="dropdown-menu">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                    <img src="@avatar" class="img-circle" alt="User Image">
+                    <p>
+                        @Model.Name
+
+                    </p>
+                    <small>
+
+                        @{
+                        if (Model.AuthStatus == 2) {
+                            <span style="color:white">
+                                已认证
+                            </span>
+                    }
+                    else if (Model.AuthStatus == 0) {
+                        <a style="color:white" href="/CurrentUser/Auth">
+                            未认证
+                        </a>
+                }
+                else if (Model.AuthStatus == 1) {
+                    <a style="color:white" href="/CurrentUser/AuthAuditing">
+                        正在认证
+                    </a>
+            }
+                        }
+                        <span style="color:gold">
+                            @foreach (var userRole in Model.UserRoles) {
+                            <b> @userRole.Role.Name</b>
+                    }
+                        </span>
+                    </small>
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                    <div class="pull-left">
+                        <a href="/CurrentUser/Profile" class="btn btn-default btn-flat">账号管理</a>
+                    </div>
+                    <div class="pull-right">
+                        <a href="@Url.Action("Logout", "Account")" class="btn btn-default btn-flat">注销账号</a>
+                    </div>
+                </li>
+            </ul>
+        </li>
+
+        <li style="padding:15px">
+            
+        </li>
+    </ul>
+</div>

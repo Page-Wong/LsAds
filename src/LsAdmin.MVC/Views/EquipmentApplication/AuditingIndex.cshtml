@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.CurrentMenu = "EquipmentApplicationAuditing";
+}
+<div class="box box-primary">
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist" id="tabs">
+            <li id="btnStatusAll" disabled><a role="tab" data-toggle="tab"><i class="fa fa- fa-reorder">全部</i><span class="badge bg-black" id="SpanStatusAll"></span></a></li>
+            <li id="btnStatusWaiting" class="active" disabled><a role="tab" data-toggle="tab"><i class="fa fa-bullhorn">待确认</i><span class="badge bg-yellow" id="SpanStatusWaiting"></span></a></li>
+            <li id="btnStatusChecking"><a role="tab" data-toggle="tab"><i class="fa   fa-legal">审核中</i><span class="badge bg-light-blue-active" id="SpanStatusChecking"></span></a></li>
+            <li id="btnStatusPass"><a role="tab" data-toggle="tab"><i class="fa fa-check">审核通过</i><span class="badge bg-green" id="SpanStatusPass"></span></a></li>
+            <li id="btnStatusFailed"><a role="tab" data-toggle="tab"><i class="fa  fa-remove">审核不通过</i><span class="badge bg-red" id="SpanStatusFailed"></span></a></li>
+        </ul>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+            <!--<a> <i class="fa fa-spin fa-refresh"></i>&nbsp; 数据加载中</a>-->
+            <ul class="products-list product-list-in-box  todo-list" id="equipmentApplicationList">
+                <!--  <li class="item">
+                  <div class="product-img">
+                      <img src="/EquipmentModel/GetThumbnail?id=08d56ece-c585-9a95-c5da-5bba039cb53b" alt="Product Image">
+                  </div>
+                  <div class="product-info">
+                      <span class="product-description text-uppercase text-light-blue"> 2018-01-25 20:11:07<small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small></span>
+                      <a href="javascript:void(0)" class="product-title btn-link">王府井百货(广东省东莞市石龙XXXXXXXXXXX)<small class="label label-warning">待确认</small> </a>
+                      <br class="text-green">需申请适合尺寸为10cm*20cm的播放设备。需申请适合尺寸为10cm*20cm的播放设备。需申请适合尺寸为10cm*20cm的播放设备。需申请适合尺寸为10cm*20cm的播放设备。需申请适合尺寸为10cm*20cm的播放设备。需申请适合尺寸为10cm*20cm的播放设备<br />
+                  </div>
+                  <div class="tools">
+                      <button class="btn btn-info btn-xs" href="javascript:;" onclick=""> <i class="fa fa-legal"></i>确认</button>
+                      <button class="btn btn-success btn-xs" href="javascript:;" onclick=""> <i class="fa fa-check"></i>通过</button>
+                      <button class="btn btn-danger btn-xs" href="javascript:;" onclick=""> <i class="fa fa-remove"></i>不通过</button>
+                      <button class="btn btn-warning btn-xs" href="javascript:;" onclick=""> <i class="fa fa-reply"></i>取消审核</button>
+                  </div>
+              </li>   -->
+            </ul>
+        </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-left">
+        <ul id="grid_paging_part"></ul>
+    </div>
+    <!-- /.box-footer -->
+</div>
+<!-- /.box -->
+
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/Views/EquipmentApplication/AuditingIndex.js"></script>
+    <script src="~/js/showPopoverInfo/placeInfo.js"></script>
+}

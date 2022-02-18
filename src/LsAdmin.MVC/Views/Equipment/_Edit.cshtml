@@ -1,0 +1,31 @@
+﻿<div id="editModal" tabindex="-1" class="modal fade in" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h5 class="box-title" id="Title"></h5>
+                <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" enctype='multipart/form-data'>
+                <input type="hidden" id="Id" />
+                <input type="hidden" id="OwnerUserId" />
+                <div class="box-body">
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="Remarks">报修原因</label>
+                        <div class="col-sm-10">
+                            <textarea id="Remarks" class="form-control" rows="3" placeholder="此项为必填项。如：设备白屏不能使用，需维修。"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="pull-right box-tools">
+                        <button id="btnSave" class="btn btn-primary" type="button">保存</button>
+                        <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

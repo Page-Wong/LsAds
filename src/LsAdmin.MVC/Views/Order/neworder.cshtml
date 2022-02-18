@@ -1,0 +1,228 @@
+﻿                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @{
+    ViewBag.CurrentMenu = "OrderNewOrder";
+}
+
+<div class="bgzt">
+<div class="box box-solid">
+    <div class="box-header with-border">
+        <h3 class="public_title" style=" margin:0 0 40px 30px;">
+            创建订单
+        </h3>
+    </div>
+    <div class="box-body">
+        <input type="hidden" id="orderId">
+        <input type="hidden" id="shoppingCartType" value=1>
+            <h3 class="orders_steps">
+                <i class="txt_step">1</i><span>基本信息</span>
+            </h3>
+            <div class="public_row box_h">
+                <div class="key"><em></em>订单名称:</div>
+                <div>
+                    <input id="input_name" name="order[order_name]" maxlength="50" placeholder="名称请不要超过50个字！" type="text" class="reg_ipt" data-toggle="tooltip" value="我的推广方案">
+                </div>
+                <div class="result_row">
+                    <div class="tipsLabel"></div>
+                </div>
+            </div>
+            <div class="public_row box_h">
+                <div class="key"><em></em>公司所属行业:</div>
+                <div>
+                    <div class="orders_chose">
+                        <select class="form-control trade-select " id="input_industry" name="Industry" placeholder="-请选择-" data-toggle="tooltip" style="max-width:298px">
+                            <option>-请选择-</option>
+                            <option>IT/通信/电子/互联网</option>
+                            <option>会计/金融/银行/保险</option>
+                            <option>贸易/消费/制造/营运</option>
+                            <option>制药/医疗</option>
+                            <option>广告/媒体</option>
+                            <option>房地产/建筑</option>
+                            <option>专业服务/教育/培训</option>
+                            <option>服务业</option>
+                            <option>物流/运输</option>
+                            <option>能源/原材料</option>
+                            <option>政府/非营利组织/其他</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="result_row">
+                    <div class="tipsLabel"></div>
+                </div>
+            </div>
+            <div class="public_row box_h">
+                <div class="key"><em></em>投放时间范围:</div>
+                <div>
+                    <input type="text" class="form-control" id="input_date" value="" style="max-width:298px" />
+                </div>
+                <div class="result_row">
+                    <div class="tipsLabel" id="dayLabel"></div>
+                </div>
+            </div>
+            <h3 class="orders_steps">
+                <i class="txt_step">2</i><span>播放素材</span>
+            </h3>
+            <div class="public_row box_h">
+                    <!--素材模态框 开始-->
+                    <div class="box box-default box-solid public_box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">选择播放素材(视频与图片只能二选一)</h3>
+                        </div>
+                        <div class="modal fade" id="materalSelectModal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h3 class="box-title">素材库</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="table-scrollable">
+                                            <table id="mediaTable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="table-checkbox" style="width:40px;text-align:center;" hidden="hidden"><input id="checkAll" class="group-checkable" type="checkbox" hidden></th>
+                                                        <th tabindex="0" aria-label="">
+                                                            名称
+                                                        </th>
+                                                        <th tabindex="0" style="width:15%;" aria-label="">
+                                                            播放时长
+                                                        </th>
+                                                        <th tabindex="0" style="width:20%" aria-label="">
+                                                            备注
+                                                        </th>
+                                                        <th tabindex="0" style="width:25%;" aria-label="">
+                                                            操作
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tableBody"></tbody>
+                                            </table>
+
+                                            <div class="paging-toolbar">
+                                                <ul id="grid_paging_part"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                        <!--素材模态框 结束-->
+                        <div class="box box box-default">
+                            <div class="box-header with-border none_outline" tabindex="0" id="foucs_material">
+                                <label for="input_material"></label>
+                                <div class="pull-right box-tools">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="MateralType" id="MateralType2" value="2" checked> 视频
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="MateralType" id="MateralType1" value="1"> 图片
+                                    </label>
+                                    <button id="btnAdd" class="btn btn-primary" type="button" data-original-title="新增素材" data-toggle="tooltip" data-widget="">
+                                        <i class="fa fa-plus-square"></i>&nbsp;&nbsp;上传
+                                    </button>
+                                    <button id="btnShowMateralSelectModal" class="btn btn-primary" data-toggle="modal" data-target="#materalSelectModal">
+                                        <i class="fa fa-send"></i>&nbsp;&nbsp;从素材库选择
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="table-scrollable">
+                                    <table id="selectedMediaTable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th tabindex="0"  aria-label="">
+                                                    名称
+                                                </th>
+                                                <th tabindex="0" style="width:25%" aria-label="">
+                                                    视频播放时长/图片播放时长(秒)
+                                                </th>
+                                                <th tabindex="0" style="width:35%" aria-label="">
+                                                    操作
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="selectTableBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                                合计： <span id='input_materialtotaltime'>0</span> 秒
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <h3 class="orders_steps">
+                <i class="txt_step">3</i><span>其他信息</span>
+            </h3>
+        <div class="public_row box_h">
+            <div class="key"><em></em>订单备注:</div>
+            <div class="public_box order_remarks">
+                <div class="creat_textarea_limit textarea_limit_desc" style="height: 127px;">
+                    <textarea maxlength="300" name="order[order_remarks]" id="input_remarks" style="resize: none; border: none; float: left; background: none; outline: none;margin: 10px 10px 0px; width:90%;height:75%"></textarea>
+                </div>
+            </div>
+            <div class="result_row">
+                <div class="tipsLabel"></div>
+            </div>
+        </div>
+        <div class="public_row box_h">
+            <div class="key"></div>
+            <div style="padding: 10px 0 0;">
+            </div>
+        </div>
+            <div class="box_h oders_info_label">
+                <div class="col-sm-3">
+                     <div class="label" id="equipmentCountLabel">投放媒体：0个</div>                      
+                </div>
+                <div class="col-sm-3">
+                    <div class="label" id="equipmentPriceLabel">媒体单价：0元</div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="agreement" style="display:none">
+                        <input type="checkbox" id="order_agree" name="order[order_agree]" checked="checked"> 同意
+                        <a href="" target="_blank">服务协议</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <input type="hidden" name="orderId" value="">
+                    <div class="flex1"></div>
+                    <div class="money">总计:&nbsp;&nbsp;&nbsp;&nbsp;<span class="r" id="amount">0.00</span>&nbsp;&nbsp;元</div>                    
+                </div>
+            </div>
+            @Html.Partial("/Views/Material/_Edit.cshtml")
+            @Html.Partial("/Views/Material/_Play.cshtml")
+            @Html.Partial("/Views/Material/_Upload.cshtml")
+            @Html.Partial("/Views/Pay/_OrderRefundModal.cshtml")
+            @Html.Partial("/Views/Pay/_PayModal.cshtml")
+        </div>
+    <div class="box-footer">
+        <p class="text-right">
+            <button class="btn btnS btn-lg" onclick="Save()">
+                保存方案
+            </button>
+            <button class="btn btnB btn-lg" onclick="Pay()">
+                立即购买
+            </button>
+        </p>
+        <!--结算 结束-->
+    </div>
+</div>
+</div>
+
+@section css{
+    <link rel="stylesheet" href="~/css/order.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.min.css">
+}
+
+@section scripts{
+    <script src="~/Views/Order/NewOrder.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="~/lib/moment/min/moment.min.js"></script>
+    <script src="~/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+}

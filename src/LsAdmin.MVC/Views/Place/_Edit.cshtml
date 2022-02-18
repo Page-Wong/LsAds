@@ -1,0 +1,132 @@
+﻿
+<div id="editModal" tabindex="-1" class="modal fade in" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h5 class="box-title" id="Title"></h5>
+                <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal">
+                <input type="hidden" id="Id" />
+                <div class="box-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">场所名称</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="Name" type="text" placeholder="停车场名称需具体到出入口。例：星河城停车场A出入口" style="padding:0px">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">场所地址</label>
+                        <div class="col-sm-10">
+                            请选择省份（*必填，不可为空）
+                            <select name="province" id="Province" class="form-control" style="padding:0px">
+                            </select>
+                            请选择城市（*必填，不可为空）
+                            <select name="city" id="City" class="form-control" style="padding:0px">
+                            </select>
+                            请选择区域（*必填，不可为空）
+                            <select name="district" id="District" class="form-control" style="padding:0px">
+                            </select>
+                            请填写具体地址（*必填，不可为空）
+                            <input class="form-control" id="Street" type="text" placeholder="例:北京路1号" style="padding:0px">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">场所介绍</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="Introduction" type="text" placeholder="请填写场所具体情况" style="padding:0px"  >
+                        </div>
+                    </div>
+
+                <!--   <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">场所实景图片</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="Picture" type="file" name="Picture" style="padding:0px">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">场所实景视频</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="Video" type="file" name="Video" style="padding:0px">
+                        </div>
+                    </div>
+                -->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">联系电话</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="Phone" type="tel" placeholder="请填写负责人手机号码或场所座机号码" style="padding:0px">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">负责人</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="Contact" placeholder="请填写负责人姓名" style="padding:0px">
+                        </div>
+                    </div>
+                 
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">场所标签</label>
+                        <div class="col-sm-10">
+                            <select id="PlaceTag" class="form-control" style="padding:0px" multiple></select>
+                        </div>
+                    </div>
+                 
+                 <!--  
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">广告白名单</label>
+                        <div class="col-sm-10">
+                            <select id="AdsWhiteTag" class="form-control" style="padding:0px" multiple></select>
+                        </div>
+                    </div>
+                  --> 
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">广告黑名单</label>
+                        <div class="col-sm-10">
+                            <select id="AdsBlackTag" class="form-control" style="padding:0px" multiple data-live-search="true"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">可播放广告时间段</label>
+                        <div class="col-sm-10">
+                            <select id="TimeRange" class="form-control" style="padding:0px" multiple data-live-search="true" >
+                                <option>06:00-07:00</option>
+                                <option>07:00-08:00</option>
+                                <option>08:00-09:00</option>
+                                <option>09:00-10:00</option>
+                                <option>10:00-11:00</option>
+                                <option>11:00-12:00</option>
+                                <option>12:00-13:00</option>
+                                <option>13:00-14:00</option>
+                                <option>14:00-15:00</option>
+                                <option>15:00-16:00</option>
+                                <option>16:00-17:00</option>
+                                <option>17:00-18:00</option>
+                                <option>18:00-19:00</option>
+                                <option>19:00-20:00</option>
+                                <option>20:00-21:00</option>
+                                <option>21:00-22:00</option>
+                                <option>22:00-23:00</option>                             
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="">备注</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="Remarks" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <div class="pull-right box-tools">
+                        <button id="btnSave" class="btn btn-primary" type="button">保存</button>
+                        <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

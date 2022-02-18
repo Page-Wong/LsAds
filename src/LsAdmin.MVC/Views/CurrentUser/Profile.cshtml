@@ -1,0 +1,174 @@
+﻿@model ProfileModel
+@{
+    ViewBag.CurrentMenu = "CurrentUserProfile";
+    var avatar = "data:image/png;base64," + Convert.ToBase64String(Model.Avatar);
+    
+    var userMobileNumber = Model.MobileNumber == null ? "" : Model.MobileNumber.Substring(0, 3) + "****" + Model.MobileNumber.Substring(7);
+}
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <div class="box box-primary">
+            <div class="box-header with-border bg-aqua">
+                <h3 class="box-title">个人信息</h3>
+
+                <input type="file" onchange="uploadAvatar();" id="avatarSelector" style="display: none" />
+                <a href="#" data-toggle="popover" title="更换头像" onclick="getAvatar()"><img class="profile-user-img img-responsive img-circle" src="@avatar" alt="User profile picture"></a>
+
+                <h3 class="profile-username text-center">@Model.UserName</h3>
+                <p class="text-center" style="color:gold">
+                    @foreach (var roleName in Model.RoleNames) {
+                        <b> @roleName</b>
+                    }
+                </p>
+                @{if (Model.AuthStatus == 2) {
+                        <p class="text-muted text-center"><a class="btn btn-bitbucket btn-xs disabled">已实名认证</a></p>
+                    }
+                    else if (Model.AuthStatus == 0) {
+
+                        <p class="text-muted text-center"><a href="/CurrentUser/Auth" class="btn btn-link">实名认证</a>&nbsp;&nbsp;<a class="btn btn-default btn-xs disabled">未认证</a></p>
+                    }
+                    else if (Model.AuthStatus == 1) {
+
+                        <p class="text-muted text-center"><a href="/CurrentUser/AuthAuditing" class="btn btn-primary btn-xs">正在认证</a></p>
+                    }
+                }
+
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-3 col-lg-3">
+                        <h4 class="text-center"><i class="fa fa-lock text-green"></i>&emsp;<strong>登录密码</strong></h4>
+                    </div>
+                    <div class="col-xs-7 col-lg-7">
+                        <h4><small class="text-red">互联网账号存在被盗风险，建议您定期更改密码以保护账户安全。</small></h4>
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        <h4 class="text-center"><a class="btn-link" href="ChangePassword">修改</a></h4>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-3 col-lg-3">
+                        <h4 class="text-center"><i class="fa fa-mobile text-green"></i>&emsp;<strong>手机验证</strong></h4>
+                    </div>
+                    <div class="col-xs-7 col-lg-7">
+                        <h4><small>您的验证手机：@userMobileNumber&emsp;若已丢失或停用，请立即更换，<spam class="text-red">避免账户被盗</spam>。</small></h4>
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        <h4 class="text-center"><a class="btn-link" href="ChangeMobileNumber">修改</a></h4>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-3 col-lg-3">
+                        <h4 class="text-center"><i class="fa fa-envelope text-green"></i>&emsp;<strong>邮箱验证</strong></h4>
+                    </div>
+                    <div class="col-xs-7 col-lg-7">
+                        <h4><small>您的验证邮箱：@Model.EMail&emsp;若已丢失或停用，请立即更换</small></h4>
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        <h4 class="text-center"><a class="btn-link" href="ChangeEMail">修改</a></h4>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-3 col-lg-3">
+                        <h4 class="text-center"><i class="fa fa-user text-green"></i>&emsp;<strong>实名验证</strong></h4>
+                    </div>
+                    <div class="col-xs-7 col-lg-7">
+                        @{if (Model.AuthStatus == 2) {
+                                <h4><small>您已通过实名认证。</small></h4>
+                            }
+                            else if (Model.AuthStatus == 0) {
+
+                                <h4><small>您尚未进行通过实名认证。</small></h4>
+                            }
+                            else if (Model.AuthStatus == 1) {
+                                <h4><small>您实名认证正在审核中。</small></h4>
+                            }
+                        }
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        @{if (Model.AuthStatus == 2) {
+                                <h4 class="text-center"></h4>
+                            }
+                            else if (Model.AuthStatus == 0) {
+                                <h4 class="text-center"><a class="btn-link" href="/CurrentUser/Auth">实名认证</a></h4>
+                            }
+                            else if (Model.AuthStatus == 1) {
+                                <h4 class="text-center"><a class="btn-link" href="/CurrentUser/AuthAuditing">查看</a></h4>
+                            }
+                        }
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xs-3 col-lg-3">
+                        <h4 class="text-center"><i class="fa fa-key text-green"></i>&emsp;<strong>支付密码</strong></h4>
+                    </div>
+                    <div class="col-xs-7 col-lg-7">
+                        <h4><small>建议您定期更换新的支付密码，提高安全性。</small></h4>
+                    </div>
+                    <div class="col-xs-2 col-lg-2">
+                        <h4 class="text-center"><a class="btn-link" href="ChangePaymentPassword">修改</a></h4>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+
+@section scripts{
+    <script>
+        function getAvatar() {
+            $("#avatarSelector").click();
+        }
+        function uploadAvatar() {
+            var formData = new FormData();
+            formData.append('file', $('#avatarSelector')[0].files[0]);
+            $.ajax({
+                url: '/CurrentUser/UploadAvatar',
+                type: 'POST',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.result == "Success") {
+                        location.reload();
+                    }
+                    else {
+                        layer.alert(data.message);
+                    }
+                }
+            })
+        }
+
+        function changeName() {
+            layer.prompt({
+                value: $('#txName').html(),
+                title: '请输入姓名',
+            }, function (value, index, elem) {
+                $.ajax({
+                    url: '/CurrentUser/ChangeName',
+                    type: 'POST',
+                    data: { name: value },
+                    success: function (data) {
+                        if (data.result == "Success") {
+                            location.reload();
+                        }
+                        else {
+                            layer.alert(data.message);
+                        }
+                    }
+                })
+            });
+        }
+    </script>
+}

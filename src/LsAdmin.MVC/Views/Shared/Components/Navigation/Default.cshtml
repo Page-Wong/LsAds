@@ -1,0 +1,49 @@
+﻿@model List<LsAdmin.Application.MenuApp.Dtos.MenuDto>
+@using Microsoft.AspNetCore.Html
+
+<li class="@(ViewBag.CurrentMenu == "HomePage" ? "active" : "")">
+    <a href="/">
+        <i class="fa fa-home"></i> <span>主页</span>
+    </a>
+</li>
+@foreach (var menu in Model.Where(m => m.ParentId.Equals(Guid.Empty))) {
+    @(new HtmlString(getMenuHtml("", menu)))
+
+}
+
+@{
+    string getMenuHtml(string fatherHtml, LsAdmin.Application.MenuApp.Dtos.MenuDto menu) {
+
+        var menus = Model.Where(m => m.ParentId.Equals(menu.Id));
+        var _hasChildren = (menus != null && menus.Count() > 0);
+        var isActive = ViewBag.CurrentMenu == menu.Code; //判断当前功能是否处于激活
+        string html = "";
+        if (menu.ParentId == Guid.Empty) {
+            html = "<li class='header'><i class='" + menu.Icon + "'></i>&nbsp;&nbsp;<span>" + menu.Name + "</span>\n";
+            foreach (var item in menus) {
+                html += getMenuHtml(fatherHtml + html, item);
+            }
+            html += "</li>";
+            return html;
+        }
+        html =
+            "<li class='" + (_hasChildren ? "treeview" : "")  + (isActive ? " active" : "") + "'>\n" +
+                "<a href = '" + menu.Url + "' >" +
+            "<i class='" + menu.Icon + "'></i><span>" + menu.Name + "</span>\n";
+        if (_hasChildren) {
+            html +=
+                "<span class='pull-right-container'>\n" +
+                    "<i class='fa fa-angle-left pull-right'></i>\n" +
+                "</span></a>";
+            html += "<ul class='treeview-menu'>\n";
+            foreach (var item in menus) {
+                html += getMenuHtml(fatherHtml + html, item);
+            }
+            html += "</ul>\n";
+        }
+        else {
+            html += "</a></li>\n";
+        }
+        return html;
+    }
+}

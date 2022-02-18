@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewData["Title"] = "EditProgram";
+}
+
+<div class="bgzt">
+    <input type="text" id="selectedPlayerids" hidden="hidden" value=@ViewBag.selectedPlayerids>
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <h3 class="public_title" style=" margin:0 0 40px 30px;">
+                创建方案
+            </h3>
+        </div>
+        <div class="box-body">
+            <input type="hidden" id="orderId">
+            <h3 class="orders_steps">
+                <i class="txt_step">1</i><span>基本信息</span>
+            </h3>
+
+            <div class="public_row box_h">
+                <div class="key"><em></em>方案名称:</div>
+                <div>
+                    <input id="input_name" maxlength="50" placeholder="名称请不要超过50个字！" type="text" class="reg_ipt" data-toggle="tooltip" value="我的推广方案">
+                </div>
+                <div class="result_row">
+                    <div class="tipsLabel"></div>
+                </div>
+            </div>
+            <div class="public_row box_h">
+                <div class="key"><em></em>播放时间范围:</div>
+                <div>
+                    <input type="text" class="reg_ipt" id="input_date" value="" style="max-width:298px" />
+                </div>
+                <div class="result_row">
+                    <div class="tipsLabel" id="dayLabel"></div>
+                </div>
+            </div>
+
+            <div class="public_row box_h">
+                <div class="key"><em></em>播放器:</div>                
+                    <select class="form-control select2 ChoosePlayersList" data-toggle="tooltip" dropdownAutoWidth="True" multiple="multiple" data-live-search="true" id="ChoosePlayersList" style="float: left; height:100%;width:70%"> </select>
+                <div class="result_row">
+                    <div class="tipsLabel"></div>
+                </div>
+            </div>
+            <h3 class="orders_steps">
+                <i class="txt_step">2</i><span>方案信息</span>
+            </h3>
+            <div class="public_row box_h">
+                <div class="key"><em></em>广告方案:</div>
+                <div class="chose_area" id='choose_area'>
+                    <a class="others_btn choose_wechat_doc_popup" href="javascript:;">
+                        <img src="~/css/image/chose_doc.jpg">
+                    </a>
+                </div>
+                <div class="orders_chose public_box" style="padding: 10px 150px 0 0;display:inline-block;" id="choose_result_box"></div>
+
+            </div>
+            <h3 class="orders_steps">
+                <i class="txt_step">3</i><span>其他信息</span>
+            </h3>
+            <div class="public_row box_h">
+                <div class="key"><em></em>备注:</div>
+                <div class="public_box order_remarks">
+                    <div class="creat_textarea_limit textarea_limit_desc" style="height: 127px;">
+                        <textarea maxlength="300" id="input_remarks" style="resize: none; border: none; float: left; background: none; outline: none;margin: 10px 10px 0px; width:90%;height:75%"></textarea>
+                    </div>
+                </div>
+                <div class="result_row">
+                    <div class="tipsLabel"></div>
+                </div>
+            </div>
+            <div class="public_row box_h">
+                <div class="key"></div>
+                <div style="padding: 10px 0 0;">
+                </div>
+            </div>
+            @Html.Partial("/Views/Pay/_OrderRefundModal.cshtml")
+            @Html.Partial("/Views/Pay/_PayModal.cshtml")
+            @Html.Partial("/Views/Program/_SelectModal.cshtml")
+        </div>
+        <div class="box-footer">
+            <p class="text-right">
+                <button class="btn btnB btn-lg" onclick="SaveMyProgram()">
+                    保存
+                </button>
+                <button class="btn  btnS btn-lg" onclick="CancelMyProgram()">
+                    取消
+                </button>
+            </p>
+            <!--结算 结束-->
+        </div>
+    </div>
+</div>
+
+@section css{
+<link rel="stylesheet" href="~/css/order.css">
+<!--     <link rel="stylesheet" href="~/css/MyPromotion.css">-->
+    <link rel="stylesheet" href="~/lib/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.min.css">
+}
+
+@section scripts{
+    <script src="~/Views/MyPromotion/EditProgram.js"></script> 
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="~/lib/moment/min/moment.min.js"></script>
+    <script src="~/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/Views/Program/_SelectModal.js"></script>
+
+}
+

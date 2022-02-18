@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.CurrentMenu = "AdminNotify";
+}
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">全部消息</h3>
+    </div>
+    <div class="box-body">
+        <ul class="timeline"></ul>
+        <div class="paging-toolbar">
+            <ul id="grid_paging_part"></ul>
+        </div>
+    </div>
+</div>
+
+@section css{
+
+}
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script>
+        $(function () {
+            loadTables(1, 20);
+        });
+
+
+        //加载用户列表数据
+        function loadTables(startPage, pageSize) {
+            $(".timeline").html("");
+            $.ajax({
+                type: "GET",
+                url: "/AdminNotify/GetAllPageList?startPage=" + startPage + "&pageSize=" + pageSize + "&_t=" + new Date().getTime(),
+                success: function (data) {
+                    var ids = [];
+                    $.each(data.rows, function (i, item) {
+                        var readStatus = "";
+                        readStatus = item.status == 2 ? "<span class='badge bg-blue'>未读</span> " : "接收时间：" + item.receiveTime;
+                        var str = "";
+                        str += "<li>";
+                        str += " <i class='" + item.icon + " bg-yellow'></i>";
+                        str += "     <div class='timeline-item'>";
+                        str += "        <span class='time'><i class='fa fa-clock-o'></i> 发送时间：" + item.sendTime + " " + readStatus + "</span>";
+                        str += "       <h3 class='timeline-header'>" + "<a>" + item.receiverName + "</a>  " + item.typeDisplayName + "</h3>";
+                        str += "       <div class='timeline-body'>" + item.message + "</div>";
+                        str += "       <div class='timeline-footer'><button class='btn btn-danger btn-xs' href='javascript:;' onclick='deleteSingle(\"" + item.id + "\")'><i class='fa fa-trash-o'></i> 删除 </button></div>"
+                        str += "    </div>";
+                        str += "</li>";
+                        $(".timeline").append(str);
+                        ids.push(item.id);
+                    });
+                    $(".timeline").append("<li><i class='fa fa-clock-o bg-gray'></i></li >");
+                    var elment = $("#grid_paging_part"); //分页插件的容器id
+                    if (data.rowCount > 0) {
+                        var options = { //分页插件配置项
+                            bootstrapMajorVersion: 3,
+                            currentPage: startPage, //当前页
+                            numberOfPages: data.rowsCount, //总数
+                            totalPages: data.pageCount, //总页数
+                            onPageChanged: function (event, oldPage, newPage) { //页面切换事件
+                                loadTables(newPage, pageSize);
+                            }
+                        }
+                        elment.bootstrapPaginator(options); //分页插件初始化
+                    }
+                }
+            })
+        };
+
+
+        //删除单条数据
+        function deleteSingle(id) {
+            layer.confirm("您确认删除选定的记录吗？", {
+                btn: ["确定", "取消"]
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminNotify/Delete",
+                    data: { "id": id },
+                    success: function (data) {
+                        if (data.result == "Success") {
+                            loadTables(1, 20);
+                            layer.closeAll();
+                        }
+                        else {
+                            layer.alert("删除失败！");
+                        }
+                    }
+                })
+            });
+        };
+    </script>
+}

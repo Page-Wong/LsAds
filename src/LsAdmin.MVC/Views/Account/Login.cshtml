@@ -1,0 +1,139 @@
+﻿@using LsAdmin.MVC.Models
+@{    
+    Layout = null;
+}
+@model LoginModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>系统登录</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="~/css/AdminLTE.css"/>
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/blue.css"/>
+</head>
+<body class="hold-transition login-page">
+    <!-- Modal -->
+    <div class="modal fade" id="registerSelectModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">请选择注册角色</h4>
+                </div>
+                <div class="modal-body">
+                    <a href="@Url.Action("Register", "Account", new { type=RegisterModel.MARKETER_ROLE_NAME})">
+                        <div class="callout callout-info">
+                            <h4>广告主</h4>
+                            广告主的一些介绍，balabalabalabalabalabalabalabala
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Register", "Account", new { type=RegisterModel.PLACEOWNER_ROLE_NAME})">
+                        <div class="callout callout-info">
+                            <h4>场所主</h4>
+                            场所主的一些介绍，balabalabalabalabalabalabalabala
+                        </div>
+                    </a>
+                    <a href="@Url.Action("Register", "Account", new { type=RegisterModel.EQUIPMENTOWNER_ROLE_NAME})">
+                        <div class="callout callout-info">
+                            <h4>设备主</h4>
+                            设备主的一些介绍，balabalabalabalabalabalabalabala
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="http://www.lsinfo.com.cn" target="_blank"><b>LsAdmin</b></a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <h4>权限管理系统</h4>
+            <input id="errorInfo" type="hidden" value="@ViewBag.ErrorInfo" />
+            <form asp-controller="Account" asp-action="Login" method="post" onsubmit="onSubmit()">
+                <div class="input_outer">
+                    <span class="u_user"></span>
+                    <input asp-for="UserName" type="text" class="text" placeholder="请输入用户名或手机号码"/>
+                </div>
+                <div class="input_outer">
+                    <span class="us_uer"></span>
+                    <input asp-for="Password" type="password" class="text" placeholder="请输入密码"/>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input asp-for="RememberMe" type="checkbox"/> 记住我
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-xs-6">
+                        <button id="btnLogin" type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <hr/>
+            <div class="row">
+                <div class="col-xs-4" display:table>
+                    <a href="javascriptvoid:;" class="text-center" data-toggle="modal" data-target="#registerSelectModal">注册账号</a>
+                </div>
+                <div class="col-xs-4 pull-right">
+                    <a href="@Url.Action("ForgetPassword","Account")" class="text-center">忘记密码</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box -->
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/iCheck/icheck.js"></script>
+    <script src="~/lib/layer/layer.js"></script>
+    <script src="~/lib/jquery.cookie/src/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            $('.icheck input').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue',
+                increaseArea: '20%' // optional
+            });
+
+            //显示服务端验证的错误信息
+            if ($("#errorInfo").val()) {
+                layer.tips($("#errorInfo").val(), "#btnLogin");
+            };
+
+            //判断之前是否有设置cookie，如果有，则设置【记住我】选择框
+            if ($.cookie("lsadmin_userName") != undefined) {
+                $("#RememberMe").attr("checked", "checked");
+            }
+            else {
+                $("#RememberMe").removeAttr("checked");
+            }
+            //读取cookie
+            if ($("#RememberMe:checked").length > 0) {
+                $("#UserName").val($.cookie("lsadmin_userName"));
+                $("#Password").val($.cookie("lsadmin_password"));
+            }
+        });
+        //根据是否勾选记住我记录或清除cookie
+        function onSubmit() {
+            $("#btnLogin").attr({ "disabled": "disabled" });
+            if ($("#RememberMe:checked").length > 0) {//设置cookie
+                $.cookie("lsadmin_userName", $("#UserName").val());
+                $.cookie("lsadmin_password", $("#Password").val());
+            } else {//清除cookie
+                $.removeCookie("lsadmin_userName");
+                $.removeCookie("lsadmin_password");
+            }
+        };
+    </script>
+</body>
+</html>

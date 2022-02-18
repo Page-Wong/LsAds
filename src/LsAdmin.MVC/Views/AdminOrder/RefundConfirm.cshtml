@@ -1,0 +1,261 @@
+﻿@{
+    ViewBag.CurrentMenu = "OrderRefundConfirm";
+}
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="refundConfirmModal" tabindex="-1">
+    <div class="modal-dialog" style="width:800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">请确认以下退款交易已操作完成</h4>
+            </div>
+            <div class="modal-body">
+                <input hidden id="refundConfirmOrderNo"/>
+                <div class="table-scrollable">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                        <thead>
+                            <tr role="row">
+                                <th tabindex="0" aria-label="">
+                                    状态
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    交易号
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    交易方式
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    业务类型
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    交易时间
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    金额
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    交易摘要
+                                </th>
+                                <th tabindex="0" style="width: 70px;" aria-label="">
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="refundConfirmTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="orderRefundConfirm()">确认完成退款</button>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-toggle="modal" data-target="#tradeMethodModal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">订单审核</h3>
+                <div class="pull-right box-tools">
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-scrollable">
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="table-checkbox" style="width:40px;text-align:center;"><input id="checkAll" class="group-checkable" type="checkbox"></th>
+                                <th tabindex="0" aria-label="">
+                                    状态
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    名称
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    广告类型
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    金额
+                                </th>
+                                <th tabindex="0" style="width: 50px;" aria-label="">
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                    <div class="paging-toolbar">
+                        <ul id="grid_paging_part"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section css{
+}
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script>
+        var pageSize = 15;
+        $(function () {
+            loadTables(1, pageSize);
+        });
+
+        //加载列表数据
+        function loadTables(startPage, pageSize) {
+            $("#tableBody").html("");
+            $("#checkAll").prop("checked", false);
+            $.ajax({
+                type: "GET",
+                url: "/AdminOrder/GetAllRefundPageList?startPage=" + startPage + "&pageSize=" + pageSize + "&_t=" + new Date().getTime(),
+                success: function (data) {
+                    $.each(data.rows, function (i, item) {
+                        var tr = "<tr>";
+                        tr += "<td align='center'><input type='checkbox' class='checkboxs' value='" + item.id + "'/></td>";
+                        tr += "<td>" + (item.statusString == null ? "" : item.statusString) + "</td>";
+                        tr += "<td>" + (item.name == null ? "" : item.name) + "</td>";
+                        tr += "<td>" + (item.adsTag == null ? "" : item.adsTag) + "</td>";
+                        tr += "<td>" + (item.amount == null ? "" : item.amount) + "</td>";
+                        tr += "<td>"
+
+                        if (item.status == 7 || item.status == 8) {
+                            tr += "<button class='btn btn-primary btn-xs' href='javascript:;' onclick='loadRefundTables(\"" + item.orderNo + "\")'><i class='fa fa-legal'></i> 处理 </button>"
+                        }
+                        tr += "</td > "
+                        tr += "</tr>";
+                        $("#tableBody").append(tr);
+                    })
+                    var elment = $("#grid_paging_part"); //分页插件的容器id
+                    if (data.rowCount > 0) {
+                        var options = { //分页插件配置项
+                            bootstrapMajorVersion: 3,
+                            currentPage: startPage, //当前页
+                            numberOfPages: data.rowsCount, //总数
+                            totalPages: data.pageCount, //总页数
+                            onPageChanged: function (event, oldPage, newPage) { //页面切换事件
+                                loadTables(newPage, pageSize);
+                            }
+                        }
+                        elment.bootstrapPaginator(options); //分页插件初始化
+                    }
+                    $("table > tbody > tr").click(function () {
+                        $("table > tbody > tr").removeAttr("style")
+                        $(this).attr("style", "background-color:#beebff");
+                    });
+                }
+            })
+        }
+        //全选
+        function checkAll(obj) {
+            $(".checkboxs").each(function () {
+                if (obj.checked == true) {
+                    $(this).prop("checked", true)
+
+                }
+                if (obj.checked == false) {
+                    $(this).prop("checked", false)
+                }
+            });
+        };
+
+        //加载交易列表数据
+        function loadRefundTables(orderNo) {
+            if (orderNo == null) {
+                orderNo = $('#refundConfirmOrderNo').val();
+            }
+            else {
+                $('#refundConfirmOrderNo').val(orderNo);
+            }
+            $("#refundConfirmTableBody").html("");
+            $("#checkAll").prop("checked", false);
+            $.ajax({
+                type: "GET",
+                url: "/AdminOrder/GetOrderRefundTrade?orderNo=" + orderNo + "&_t=" + new Date().getTime(),
+                success: function (data) {
+                    $('#refundConfirmModal').modal('show');
+                    $.each(data.rows, function (i, item) {
+                        var tr = "<tr>";
+                        tr += "<td>" + (item.tradeStatusString == null ? "" : item.tradeStatusString) + "</td>";
+                        tr += "<td>" + (item.tradeNo == null ? "" : item.tradeNo) + "</td>";
+                        tr += "<td>" + (item.tradeMethodString == null ? "" : item.tradeMethodString) + "</td>";
+                        tr += "<td>" + (item.businessType.displayName == null ? "" : item.businessType.displayName) + "</td>";
+                        tr += "<td>" + (item.tradeTime == null ? "" : item.tradeTime) + "</td>";
+                        tr += "<td>" + (item.amount == null ? "" : item.amount) + "</td>";
+                        tr += "<td>" + (item.remarks == null ? "" : item.remarks) + "</td>";
+                        tr += "<td>"
+
+                        if (item.tradeStatus == 1) {
+                            tr += "<button class='btn btn-primary btn-xs' href='javascript:;' onclick='tradeRefundConfirm(\"" + item.tradeNo + "\")'> 已处理 </button>"
+                        }
+                        tr += "</td > "
+                        tr += "</tr>";
+                        $("#refundConfirmTableBody").append(tr);
+                    })
+                    $("table > tbody > tr").click(function () {
+                        $("table > tbody > tr").removeAttr("style")
+                        $(this).attr("style", "background-color:#beebff");
+                    });
+                }
+            })
+        }
+
+        //交易确认处理
+        function tradeRefundConfirm(tradeNo) {
+            orderNo = $('#refundConfirmOrderNo').val();
+            if (orderNo == null) {
+                layer.alert('缺少订单信息');
+            }
+            layer.confirm('确认已处理完成', {
+                btn: ['确认处理完成', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminOrder/TradeRefundConfirm?&_t=" + new Date().getTime(),
+                    data: { tradeNo: tradeNo, orderNo: orderNo },
+                    success: function (data) {
+                        if (data.result == 'Success') {
+                            loadRefundTables();
+                            layer.closeAll();
+                        } else {
+                            layer.alert(data.message);
+                        }
+                    }
+                })
+            },
+                function () {
+                    layer.closeAll();
+                });
+        };
+
+        //交易确认处理
+        function orderRefundConfirm(orderNo) {
+            if (orderNo == null) {
+                orderNo = $('#refundConfirmOrderNo').val();
+            }
+            layer.confirm('确认已处理完成', {
+                btn: ['确认处理完成', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/AdminOrder/OrderRefundConfirm?&_t=" + new Date().getTime(),
+                    data: { orderNo: orderNo },
+                    success: function (data) {
+                        if (data.result == 'Success') {
+                            $('#refundConfirmModal').modal('hide');
+                            loadTables(1, pageSize);
+                            layer.closeAll();
+                        } else {
+                            layer.alert(data.message);
+                        }
+                    }
+                })
+            },
+                function () {
+                    layer.closeAll();
+                });
+        };
+    </script>
+}

@@ -1,0 +1,30 @@
+﻿<div class="modal fade" id="MonitorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="width:1024px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">发送指令</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box">
+                            <div class="box-body">
+                                <img id="img" onclick="changeImg()" alt="设备屏幕截图" onerror="alert('获取设备屏幕截图失败')">
+                            </div>
+                            <div class="box-footer">
+                                <input type="checkbox" name="autoRefresh" /><label for="autoRefresh"> 自动刷新 </label>
+                                <button class="btn btn-adn pull-right" id="manualRefresh" onclick="changeScreen()">手动刷新</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="instructionPanel">
+                            <input hidden name="id" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "v3.3.7",
+    "font-awesome": "v4.7.0",
+    "iCheck": "1.0.2",
+    "layer": "*",
+    "jquery.cookie": "1.4.1",
+    "jstree": "3.3.4",
+    "bootstrap-paginator": "v1.0",
+    "jquery": "3.2.1",
+    "bootstrap-fileinput": "v4.4.5",
+    "datatables": "datatable#1.10.16",
+    "twitter-bootstrap-wizard": "bootstrap-wizard#1.4.2",
+    "bootstrap-select": "v1.12.2",
+    "echarts": "3.8.3",
+    "bootstrap-duallistbox": "3.0.6",
+    "Ionicons": "ionicons#v2.0.1",
+    "inputmask": "jquery.inputmask#3.3.11",
+    "bootstrap-daterangepicker": "v2.1.27",
+    "seiyria-bootstrap-slider": "v10.0.0",
+    "ckeditor": "#full/4.6.2"
+  },
+  "resolutions": {
+    "jstree": "3.3.4",
+    "jquery": ">= 1.9.0",
+    "font-awesome": "v4.7.0",
+    "bootstrap": "v3.3.7"
+  }
+}

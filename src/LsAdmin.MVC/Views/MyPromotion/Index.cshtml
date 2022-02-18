@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.CurrentMenu = " MyPromotion";
+}
+<div class="col-md-12 box-body">
+
+    <div class="col-md-12 nav-tabs-custom">
+
+        <ul class="nav nav-tabs" role="tablist" id="PlaceTypeTabs">
+            <!-- <li id="btnStatusAll" class="active" disabled><a role="tab" data-toggle="tab"><i class="fa fa- fa-reorder">全部</i><span class="badge bg-black" id="SpanStatusAll"></span></a></li>
+            <li id="btnSTATUSINUSE"><a role="tab" data-toggle="tab"><i class="fa   fa-send">已设置</i><span class="badge bg-light-blue-active" id="SpanSTATUSINUSE"></span></a></li>
+            <li id="btnSTATUSUNINUSE" disabled><a role="tab" data-toggle="tab"><i class="fa  fa-hourglass-2">待设置</i><span class="badge bg-yellow" id="SpanSTATUSUNINUSE"></span></a></li>
+            <li id="btnSTATUSSCRAP"><a role="tab" data-toggle="tab"><i class="fa  fa-close">不能设置</i><span class="badge bg-red" id="SpanSTATUSSCRAP"></span></a></li>
+            -->
+            <li class='pull-right' id='EditBatch'><a><i class='fa fa-plus-square'></i>新增播放方案</a></li>
+        </ul>
+
+        <div style="position: relative;">
+            <label><input type="checkbox" class="addto_cart_all" id="checkall">&nbsp;&nbsp;&nbsp;&nbsp;全选</label>
+        </div>
+        <!--
+        <div class="search_result_title box_h scrolltop">
+            <div class="search_result_title_name box_title" style="line-height: 100%; height:44px; text-indent: 0px">
+                <div class="flex1"></div>
+                <div style="position: relative;">
+                    <label><input type="checkbox" class="addto_cart_all">&nbsp;&nbsp;&nbsp;&nbsp;全选</label>
+                </div>
+                <div class="flex1"></div>
+            </div>
+        </div>
+            -->
+        <ul class="products-list product-list-in-box  todo-list" id="Playerlist">
+        </ul>
+
+        <div class="paging-toolbar">
+            <ul id="list_paging_part"></ul>
+        </div>
+
+    </div>
+</div>
+
+@Html.Partial("~/Views/Program/_SelectModal.cshtml")
+
+@section css{
+    <link rel="stylesheet" href="~/css/MyPromotion.css">
+}
+
+@section scripts{
+     <script src="~/Views/Program/_SelectModal.js"></script>
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/Views/MyPromotion/Index.js"></script>
+    <script src="~/js/administrativeAreaSelector/select.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="~/js/showPopoverInfo/placeInfo.js"></script>
+    <script src="~/js/showPopoverInfo/equipmentmodelInfo.js"></script>
+    <script src="~/Views/Program/_SelectModal.js"></script>    
+
+
+}

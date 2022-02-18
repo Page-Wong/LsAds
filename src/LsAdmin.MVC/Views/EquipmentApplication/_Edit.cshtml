@@ -1,0 +1,32 @@
+﻿<div id="editModal" tabindex="-1" class="modal fade in" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h5 class="box-title" id="Title"></h5>
+                <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" enctype='multipart/form-data'>
+                <input type="hidden" id="Id" />
+                <input type="hidden" id="Status" />
+                <input type="hidden" id="CreateUserId" />
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="Reason">新增申请</label>
+                        <div class="col-sm-10">
+                            <textarea id="Reason" class="form-control" rows="3" placeholder="此项为必填项。请填写需放置设备的位置尺寸等设备需求。"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="pull-right box-tools">
+                        <button id="btnSave" class="btn btn-primary" type="button">保存</button>
+                        <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

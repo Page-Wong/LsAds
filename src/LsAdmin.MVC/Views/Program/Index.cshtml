@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.CurrentMenu = "Program";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">方案管理</h3>
+                <div class="pull-right box-tools">
+                    <button id="btnAdd" class="btn btn-primary" type="button" data-original-title="新增" data-toggle="tooltip" data-widget="">
+                        <i class="fa fa-plus-square"></i>&nbsp;&nbsp;新增
+                    </button>
+                    <button id="btnDelete" title="" class="btn btn-danger" type="button" data-original-title="批量删除" data-toggle="tooltip" data-widget="">
+                        <i class="fa fa-times"></i>&nbsp;&nbsp;批量删除
+                    </button>
+                </div>
+            </div>
+            <div class="box-body" id="listBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css{
+}
+@section scripts{
+    <script src="~/Views/Program/_ProgramTable.js"></script>
+    <script>
+        var pageSize = 15;
+
+        $(function () {
+
+            $("#btnAdd").click(function () { add(); });
+            $("#btnDelete").click(function () { deleteMulti(); });
+
+            var programTableConfig = {
+                hideSelectBtn: true,
+                tableBodyId: "listBody",
+                selectCallback: function (id, displayName, duration, width, height) { 
+                    alert(id);
+                }
+            };
+            ProgramTable.init(programTableConfig);
+        });
+
+        //新增
+        function add() {
+            location.href = "/program/edit";
+        };
+
+        //批量删除
+        function deleteMulti() {
+            var ids = "";
+            $(".checkboxs").each(function () {
+                if ($(this).prop("checked") == true) {
+                    ids += $(this).val() + ","
+                }
+            });
+            ids = ids.substring(0, ids.length - 1);
+            if (ids.length == 0) {
+                layer.alert("请选择要删除的记录。");
+                return;
+            };
+            //询问框
+            layer.confirm("您确认删除选定的记录吗？", {
+                btn: ["确定", "取消"]
+            }, function () {
+                var sendData = { "ids": ids };
+                $.ajax({
+                    type: "Post",
+                    url: "/Program/DeleteMuti",
+                    data: sendData,
+                    success: function (data) {
+                        if (data.result == "Success") {
+                            loadTables(1, pageSize)
+                            layer.closeAll();
+                        }
+                        else {
+                            layer.alert("删除失败！");
+                        }
+                    }
+                });
+            });
+        };
+
+    </script>
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+}

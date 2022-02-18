@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.CurrentMenu = "OrderShowEquipments";
+}
+
+<div class="bgzt">
+    <div class="box-gray box-solid">
+        <div class="box-header with-border">
+            <i class="fa fa-bullhorn"></i>
+            <h3 class="box-title">选择媒体位</h3>
+        </div>
+        <div class="step-main">
+            <div class="box-body">
+                <input type="hidden" id="orderId" />
+                <input type="hidden" id="shoppingCartType" />
+                <ul class="search-top">
+                    <li class="left-td left-td-fore">
+                        <span class="search-tit">场所类型：</span>
+                        <div class="search-main search-fore">
+                            <div class="sq">
+                                <select name="PlaceType" id="PlaceType" class="form-control"></select>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="left-td left-td-fore">
+                        <span class="search-tit">区域：</span>
+                        <div class="search-main search-fore">
+                            <div class="sq">
+                                <select name="province" id="Province" class="form-control">
+                                    <option value="">省份</option>
+                                </select>
+                            </div>
+                            <div class="sq">
+                                <select name="city" id="City" class="form-control">
+                                    <option value="">城市</option>
+                                </select>
+                            </div>
+                            <div class="sq">
+                                <select name="district" id="District" class="form-control">
+                                    <option value="">区域</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="left-td left-td-fore">
+                        <span class="search-tit">价格：</span>
+                        <div class="search-main search-fore">
+                            <div class="sq">
+                                <select name="PriceRange" id="PriceRange" class="form-control">
+                                    <option value="">价格区间</option>
+                                    <option value="1">500以下</option>
+                                    <option value="2">500-800</option>
+                                    <option value="3">800-1000</option>
+                                    <option value="4">1000-1500</option>
+                                    <option value="5">1500及以上</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+                <div class="search-button">
+                    <button id="queryButton" class="search-fn-btn" onclick="query()">
+                        查询
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="search_result act-showHide">
+            <div class="search_result_xxk_header filter_box">
+                <div class="search_result_xxk_btns">
+                    <div onclick="show_hided('search_resultArea','scArea','schemd','scRecommend',this)" class="search_result_xxk_btn search_result_xxk_btn1 this" data-list="search_resultArea" id="all">全部设备</div>
+                    <div onclick="show_hided('scArea','search_resultArea','schemd','scRecommend',this)" class="search_result_xxk_btn search_result_xxk_btn2" data-list="scArea" id="collect">我的收藏</div>
+                    <div onclick="show_hided('schemd','search_resultArea','scArea','scRecommend',this)" class="search_result_xxk_btn search_result_xxk_btn3" data-list="schemd" id="black">黑名单</div>
+                </div>
+            </div>
+            <div class="search_result_xxk_content" name="search_result_xxk_content" id="search_resultArea" style="display: block;">
+                <ul class="products-list product-list-in-box  todo-list" id="allData" data-pagecount=""></ul>
+                <div class="box-footer text-left">
+                    <ul id="grid_paging_part"></ul>
+                </div>
+            </div>
+            <!-- 收藏列  -->
+            <div class="search_result_xxk_content" id="scArea" name="search_result_xxk_content" style="display: none">
+                <!-- 异步请求的地方 -->
+                <div class="search_result_title box_h scrolltop">
+                    <div class="search_result_title_name box_title" style="line-height: 100%; height:44px; text-indent: 35px">
+                        <div class="flex1"></div>
+                        <div style="position: relative;">
+                            <label><input type="checkbox" class="addto_cart_all">&nbsp;&nbsp;&nbsp;&nbsp;全选</label>
+                        </div>
+                        <div class="flex1"></div>
+                    </div>
+                </div>
+                <ul class="products-list product-list-in-box  todo-list" id="shoucangData" data-pagecount=""></ul>
+                <div class="box-footer text-left">
+                    <ul id="sc_grid_paging_part"></ul>
+                </div>
+            </div>
+            <!-- 拉黑列  -->
+            <div class="search_result_xxk_content" id="schemd" name="search_result_xxk_content" style="display: none">
+                <!-- 异步请求的地方 -->
+                <div class="search_result_title box_h scrolltop">
+                    <div class="search_result_title_name box_title" style="line-height: 100%; height:44px; text-indent: 35px">
+                        <div class="flex1"></div>
+                        <div style="position: relative;">
+                            <label><input type="checkbox" class="addto_cart_all">&nbsp;&nbsp;&nbsp;&nbsp;全选</label>
+                        </div>
+                        <div class="flex1"></div>
+                    </div>
+                </div>
+                <ul class="products-list product-list-in-box  todo-list" id="heimingdanData" data-pagecount=""></ul>
+                <div class="box-footer text-left">
+                    <ul id="hmd_grid_paging_part"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("/Views/Order/_ShoppingCart.cshtml")
+
+@section css{
+    <link rel="stylesheet" href="~/css/frame-user.css" />
+    <link rel="stylesheet" href="~/css/order.css" />
+    <link rel="stylesheet" href="~/css/iconfont/iconfont.css">
+
+}
+@section scripts{
+    <script src="~/js/administrativeAreaSelector/select.js"></script>
+    <script src="~/Views/Order/showequipments.js"></script>
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/Views/Order/ShoppingCart.js"></script>
+    <script src="~/js/showPopoverInfo/placeInfo.js"></script>
+    <script src="~/js/showPopoverInfo/equipmentmodelInfo.js"></script>
+}

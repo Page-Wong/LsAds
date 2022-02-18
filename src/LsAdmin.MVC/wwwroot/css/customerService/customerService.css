@@ -1,0 +1,76 @@
+
+
+
+
+/* customerService */
+#customerService {
+    width: 161px;
+    height: 290px;
+    position: fixed;
+    top: 350px;
+    right: 0px;
+    z-index: 100;
+}
+#customerService {
+    margin-top: 258px;
+    position: absolute;
+    top: expression(eval(document.documentElement.scrollTop));
+}
+#customerService ul {
+    margin: 0;
+    padding: 0;
+}
+#customerService li {
+    width: 161px;
+    height: 60px;
+    list-style: none;
+}
+#customerService li img {
+    float: right;
+}
+#customerService li a {
+    height: 49px;
+    float: right;
+    display: block;
+    min-width: 47px;
+    max-width: 161px;
+}
+#customerService li a .shows {
+    display: block;
+}
+#customerService li a .hides {
+    margin-right: -143px;
+    cursor: pointer;
+}
+#customerService li a.youhui .hides {
+    display: none;
+    position: absolute;
+    right: 143px;
+}
+    #customerService li a.youhui .customerServiceQrcode {
+        display: none;
+        right: 143px;
+    }
+    #customerService #p2 {
+        width: 112px;
+        background-color: #A7D2A9;
+        height: 47px;
+        margin-left: 47px;
+        border: 1px solid #8BC48D;
+        text-align: center;
+        line-height: 47px
+    }
+    #customerService #p3 {
+        width: 112px;
+        background-color: #EC9890;
+        height: 47px;
+        margin-left: 47px;
+        border: 1px solid #E6776C;
+        text-align: center;
+        line-height: 47px
+    }
+    #customerService #p1 {
+        width: 47px;
+        height: 49px;
+        float: left
+    }

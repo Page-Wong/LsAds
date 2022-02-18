@@ -1,0 +1,278 @@
+﻿@{
+    ViewBag.CurrentMenu = "OrderEdit";
+}
+
+<div class="box box-solid">
+    <div class="box-header with-border">
+        <i class="fa fa-bullhorn"></i>
+        <h3 class="box-title">方案设计</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <!--基础信息 开始-->
+            <div class="col-lg-6">
+                <div class="box box box-default box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">基本信息</h3>
+                    </div>
+                    <div class="box-body">
+                        <input type="hidden" id="orderId"/>
+                        <div class="form-group">
+                            <label for="input_name">*请输入推广方案的名称</label>
+                            <input type="text" class="form-control" id="input_name" name="Name" placeholder="字数不能超过50个字且不能为空" maxlength="50" data-toggle="tooltip" >
+                        </div>
+                        <div class="form-group">
+                            <label for="input_introduce">*请输入广告时长(单位：秒)</label>
+                            <input type="number" class="form-control" id="input_totaltime" name="TotalSeconds" data-toggle="tooltip" min="10" max="3600" step="10"
+                                   onblur="initTooltip()" placeholder="单位：秒(s)" onchange="loadOrderInfo()">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_industry">*请选择公司所属行业</label>
+                            <select class="form-control trade-select" id="input_industry" name="Industry" placeholder="-请选择-">
+                                <option>-请选择-</option>
+                                <option>IT/通信/电子/互联网</option>
+                                <option>会计/金融/银行/保险</option>
+                                <option>贸易/消费/制造/营运</option>
+                                <option>制药/医疗</option>
+                                <option>广告/媒体</option>
+                                <option>房地产/建筑</option>
+                                <option>专业服务/教育/培训</option>
+                                <option>服务业</option>
+                                <option>物流/运输</option>
+                                <option>能源/原材料</option>
+                                <option>政府/非营利组织/其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input_introduce">*请设置方案的广告标签（单击选择，最多3个）</label>
+                            <div class="ab-cell none_outline" id="select_label" name="Tag" data-toggle="tooltip" tabindex="0"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input_introduce">请输入公司网址或者宣传网页地址</label>
+                            <input type="text" class="form-control" id="input_introduce" name="Url" placeholder="正确网址格式如：www.lsinfo.com.cn" data-toggle="tooltip" maxlength="100" onblur="initTooltip()">
+                        </div>
+                        <div class="form-group">
+                            <label for="input_introduce">备注</label>
+                            <input type="text" class="form-control" id="input_remarks" name="Remarks" placeholder="备注">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--基础信息 结束-->
+            <!--区域 开始-->
+            <div class="col-lg-6">
+                <div class="box box box-default box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">选择投放区域</h3>
+                    </div>
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="input_name">*请选择省份</label>
+                            <select class="form-control trade-select" id="Province" name="Province" data-toggle="tooltip"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_name">请选择城市</label>
+                            <select class="form-control trade-select" id="City" name="City"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input_name">请选择地区</label>
+                            <select class="form-control trade-select" id="District" name="District"></select>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" id="addarea" onclick="addArea()">&nbsp;添加&nbsp;</button>
+                        <span id="warm_addarea"></span>
+                        <hr />
+                        <div class="box box-success box-solid" style="height:130px;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">已选择的地区</h3>
+                            </div>
+                            <div class="box-body" id="selectedarea">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--区域 结束-->
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <!--时间 开始-->
+                <div class="box box box-default box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">选择投放时间</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>*设置本推广的日期范围</label>
+                            <input type="text" class="form-control" id="input_date" value="" />
+                        </div>
+
+                        <div id="TimeRange" tabindex="0" data-toggle="tooltip" style="outline:none"></div>
+                    </div>
+                </div>
+                <!--时间 结束-->
+            </div>
+            <!--推广素材 开始-->
+            <div class="col-lg-6">
+                <!--素材模态框 开始-->
+                <div class="box box box-default box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">选择播放素材(视频与图片只能二选一)</h3>
+                    </div>
+                    <div class="modal fade" id="materalSelectModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h3 class="box-title">素材库</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="table-scrollable">
+                                        <table id="mediaTable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="table-checkbox" style="width:40px;text-align:center;" hidden="hidden"><input id="checkAll" class="group-checkable" type="checkbox" hidden></th>
+                                                    <th tabindex="0" aria-label="">
+                                                        名称
+                                                    </th>
+                                                    <th tabindex="0" style="width: 80px;" aria-label="">
+                                                        播放时长
+                                                    </th>
+                                                    <th tabindex="0" aria-label="">
+                                                        备注
+                                                    </th>
+                                                    <th tabindex="0" style="width: 120px;" aria-label="">
+                                                        操作
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableBody"></tbody>
+                                        </table>
+                                        <div class="paging-toolbar">
+                                            <ul id="grid_paging_part"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+                    <!--素材模态框 结束-->
+                    <div class="box box box-default">
+                        <div class="box-header with-border none_outline" tabindex="0" id="foucs_material">
+                            <label for="input_material">*播放素材</label>
+                            <div class="pull-right box-tools">
+                                <label class="radio-inline">
+                                    <input type="radio" name="MateralType" id="MateralType2" value="2"> 视频
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="MateralType" id="MateralType1" value="1"> 图片
+                                </label>
+                                <button id="btnAdd" class="btn btn-primary" type="button" data-original-title="新增素材" data-toggle="tooltip" data-widget="">
+                                    <i class="fa fa-plus-square"></i>&nbsp;&nbsp;上传
+                                </button>
+                                <button id="btnShowMateralSelectModal" class="btn btn-primary" data-toggle="modal" data-target="#materalSelectModal">
+                                    <i class="fa fa-send"></i>&nbsp;&nbsp;从素材库选择
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="table-scrollable">
+                                <table id="selectedMediaTable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th tabindex="0" aria-label="">
+                                                名称
+                                            </th>
+                                            <th tabindex="0" aria-label="">
+                                                视频播放时长/图片播放时长(秒)
+                                            </th>
+                                            <th tabindex="0" style="width: 200px;" aria-label="">
+                                                操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="selectTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            合计： <span id='input_materialtotaltime'>0</span> 秒
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--推广素材 结束-->
+            @Html.Partial("/Views/Material/_Edit.cshtml")
+            @Html.Partial("/Views/Material/_Play.cshtml")
+            @Html.Partial("/Views/Material/_Upload.cshtml")
+            @Html.Partial("/Views/Pay/_OrderRefundModal.cshtml")
+            @Html.Partial("/Views/Pay/_PayModal.cshtml")
+        </div>
+
+    </div>
+    <div class="box-footer">
+        <!--结算 开始-->
+        <div class="box" id="content_comfirm">
+            <label style="margin:5px 0px 0px 30px">订单详情</label>
+            <div class="box-body" style="margin-left:30px">
+                <span class="bk-items-item">
+                    <span class="bk-items-item-name">名称： </span>
+                    <span class="bk-items-item-value" id="info_name"></span>
+                </span>
+                <span class="bk-items-item">
+                    <span class="bk-items-item-name">广告总时长：</span>
+                    <span class="bk-items-item-value" id="info_totaltime">0秒</span>
+                </span>
+                <div id="timerangeinfo"></div>
+            </div>
+        </div>
+        <div style="margin:20px 30px">
+            <h4>
+                <i class="fa fa-shopping-cart"></i>
+                <label class="bk_item-price-title">总费用：</label>
+                <span class="bk-items-price-money" id="totalAmount">0</span> 元
+            </h4>
+        </div>
+        <p class="text-right">
+            <button class="btn btn-default btn-lg" onclick="saveOrder()">
+                保存方案
+            </button>
+            <button class="btn btn-success btn-lg" onclick="Pay()">
+                立即购买
+            </button>
+        </p>
+
+        <!--结算 结束-->
+    </div>
+</div>
+
+@section css{
+    <link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-duallistbox/dist/bootstrap-duallistbox.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="~/css/order.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-duallistbox/dist/bootstrap-duallistbox.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="~/lib/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css">
+
+}
+@section scripts{
+    <script src="~/Views/Order/Edit.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/lib/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.js"></script>
+    <script src="~/lib/moment/min/moment.min.js"></script>
+    <script src="~/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/lib/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+    <script src="~/js/appPay/pay.js"></script>
+
+}

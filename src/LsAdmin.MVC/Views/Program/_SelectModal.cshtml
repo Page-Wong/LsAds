@@ -1,0 +1,28 @@
+﻿@using  LsAdmin.Domain.Entities;
+
+@model LsAdmin.Application.ProgramApp.Dtos.ProgramDto
+@{
+    ViewBag.CurrentMenu = "Program";
+}
+
+
+<div class="modal fade" id="programSelectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="box-title">方案库</h3>
+            </div>
+            <div class="modal-body" id="selectBody">
+
+            </div>
+            <div class="modal-footer">
+                 <span class="btnC" onclick="chose_program()">确定</span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,14 @@
+﻿@model LsAdmin.Application.MaterialApp.Dtos.MaterialDto
+
+
+<tr id='selectedid_@Model.Id'>
+    <td align='center' hidden='hidden'><input type='text' class='materialTableBodyId' value='@Model.Id' /></td>
+    <td>@Model.Name</td>
+    <td>@Model.Duration</td>
+    <td>@Model.Remarks</td>
+    <td>
+        <!--<button class='btn btn-info btn-xs' onclick='upTR("@Model.Id")'> <i class='fa fa-edit'></i> 上调 </button>
+    <button class='btn btn-info btn-xs' onclick='downTR("@Model.Id")'> <i class='fa fa-edit'></i> 下调</button>-->
+        <button class='btn btn-danger btn-xs' onclick='deleteSingle("@Model.Id")'><i class='fa fa-trash-o'></i> 删除 </button>
+    </td>
+</tr>

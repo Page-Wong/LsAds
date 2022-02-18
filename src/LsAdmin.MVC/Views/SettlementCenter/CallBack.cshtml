@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Views/Shared/_Empty.cshtml";
+    ViewData["Title"] = "支付结果";
+}
+
+<input type="hidden" id="paySuccess" value=@ViewData["Success"] />
+<div class="callout callout-info">
+    <h4>提示</h4>
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="text-center">@ViewData["Msg"]</h1>
+            @{
+                if (((bool)ViewData["Success"])) {
+                    <h4 class="text-center text-info">正在跳转...</h4>
+                }
+                else {
+                    <h4 class="text-center text-info">页面将在3秒后跳转... 还剩<span id="num">3</span>秒</h4>
+                }
+            }
+            <h5 class="text-center text-info"><a href="/Order/List" class="text-center">若页面跳转失败请手工打开链接！</a></h5>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            function jump(count) {
+                window.setTimeout(function () {
+                    count--;
+                    if (count > 0) {
+                        $('#num').html(count);
+                        jump(count);
+                    } else {
+                        location.href = "/Order/List";
+                    }
+                }, 1000);
+            }
+
+            if ($("#paySuccess").val()) {
+                location.href = "/Order/List";
+            }
+            else { 
+                jump(3); 
+            }
+        });
+    </script>
+}

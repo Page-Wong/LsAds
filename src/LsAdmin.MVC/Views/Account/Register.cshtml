@@ -1,0 +1,375 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    Layout = null;
+}
+@model RegisterModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>系统登录</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/blue.css">
+</head>
+<body class="hold-transition login-page">
+    <div class="modal fade" id="authModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">请输入图形验证码</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="authCode" class="control-label">图形验证</label>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" id="authCode" placeholder="请输入图形验证码">
+                            </div>
+                            <div class="col-xs-4">
+                                <img alt="换一张" src="GetAuthCode" id="authCodeImg" onclick="changeImg()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-flat btn-sm btn-block" onclick="onBtnCodeButtonClick()">确定</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="agreementModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">共享广告平台注册协议</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        共享广告平台为东莞泷晟信息科技有限公司（以下简称“泷晟信科”）提供的互联网共享广告平台。用户在使用该平台前，需完成注册。请您务必审慎阅读，充分理解以下注册协议中所列条款。若您成功注册，则视为您已了解并完全同意本协议各项内容。
+                    </p>
+                    <p><strong>一．定义</strong></p>
+                    <p>
+                        1.1 共享广告平台：指用以投放广告和播放广告的共享平台。共享广告平台提供的服务统称为“共享广告服务”。
+                    </p>
+                    <p>
+                        1.2 广告主：指需要通过播放广告的形式向大众宣传、推广产品、服务的用户。
+                    </p>
+                    <p>
+                        1.3 场所主：指通过提供场地，用以放置播放广告的设备，并按照广告订单要求播放广告的用户。
+                    </p>
+                    <p>
+                        1.4 广告素材：指广告主提供的，自行设计制作或依法委托他人设计制作的，用于展示自由品牌或其生产销售的产品、服务的信息内容，包括但不限于图片，视频等。
+                    </p>
+                    <p>
+                        1.5 场所主推广素材：指场所主提供，用于宣传场所自身的素材，包括但不限于图片，视频等。
+                    </p>
+                    <p>
+                        1.6 广告费：指广告主在共享广告平台投放广告所产生的费用。广告费的结算方式以共享广告平台规则为准。
+                    </p>
+                    <p>
+                        1.7 法律法规：指中华人民共和国（包括港澳台地区）客户所在地及广告素材实际投放或展示的国家、地区的相关法律、法规、部门规章及行业规范等。
+                    </p>
+                    <p><strong>二．服务条款</strong></p>
+                    <p>
+                        2.1 本协议的条款可由泷晟信科根据实际情况进行调整、修订，修改后的协议会实时在共享广告平台进行更新。修改后的协议在发布后即代替原有协议。
+                    </p>
+                    <p>
+                        2.2 已注册用户亦受到修改后协议约束。
+                    </p>
+                    <p><strong>三．用户的权利和义务</strong></p>
+                    <p>
+                        3.1 用户需提供真实、合法、有效的身份证明文件。包括但不限于个人身份证，企业营业执照，电话号码，邮箱等。在上述信息发生变更时，您应及时通知泷晟信科。
+                    </p>
+                    <p>
+                        3.2 用户应妥善保管个人账号、密码。
+                    </p>
+                    <p>
+                        （1）在发现非自身原因导致的账号异常时，应及时联系泷晟信科处理；
+                    </p>
+                    <p>
+                        （2） 如因用户自身未妥善保管账号密码而产生的任何损失或损害，泷晟信科不承担任何责任；
+                    </p>
+                    <p>
+                        （3）用户不得将账号转让、出售或出借给他人使用。
+                    </p>
+                    <p>
+                        3.3 广告主提供的广告素材需符合《中华人民共和国广告法》等相关法律法规的规定。
+                    </p>
+                    <p>
+                        3.4 用户应当维护互联网秩序和安全，不得实施任何危害网络安全或损害他人权益的行为。
+                    </p>
+                    <p><strong>四．共享广告平台的权利和义务</strong></p>
+                    <p>
+                        4.1 泷晟信科为共享广告平台用户提供技术支持，并负责共享广告平台的运营、维护。
+                    </p>
+                    <p>
+                        4.2 泷晟信科将采取合理的方式保护用户个人资料的安全。我们将使用必要的可以获得的安全技术和程序来保护您的个人资料不被未经授权的访问、使用或泄漏。
+                    </p>
+                    <p>
+                        4.3 泷晟信科有权对广告主提交的广告素材进行审核并根据法律法规决定是否允许投放播放。泷晟信科并不对审核通过的广告素材的合法性、真实性做确认和担保。
+                    </p>
+                    <p><strong>五．费用和发票</strong></p>
+                    <p>
+                        5.1 广告费计算
+                    </p>
+                    <p>
+                        （1）广告费以人民币计算。
+                    </p>
+                    <p>
+                        （2）广告费的具体计算标准以共享广告平台规则为准。
+                    </p>
+                    <p>
+                        5.2 发票
+                    </p>
+                    <p>
+                        （1）交易完成后，泷晟信科会向您开具发票。
+                    </p>
+                    <p>
+                        （2）请您提供开具发票所需资料，包括发票抬头名称，交易记录金额等。
+                    </p>
+                    <p><strong>六．不可抗力及免责</strong></p>
+                    <p>
+                        6.1 因受到不可抗力影响而不能履行或完全履行本协议的一方无需承担违约责任。
+                    </p>
+                    <p>
+                        6.2 出现下列情况时，泷晟信科可能会暂时中止、中断或终止对用户的服务：
+                    </p>
+                    <p>
+                        （1）服务器不稳定或遭受到恶意的网络攻击；
+                    </p>
+                    <p>
+                        （2）共享广告平台所需设备需进行维护升级；
+                    </p>
+                    <p>
+                        （3）因法律、法规、政策调整或政府管制而造成的暂时性服务调整。
+                    </p>
+                    <p><strong>七．法律适用及争议解决</strong></p>
+                    <p>
+                        7.1 本协议的签订地为中华人民共和国广东省东莞市。
+                    </p>
+                    <p>
+                        7.2 本协议的订立、履行、变更、终止、解除等一切问题均适用中华人民共和国法律。
+                    </p>
+                    <p>
+                        7.3 发生纠纷时，协议签订双方应友好协商；协商不成的，可以通过诉讼方式解决冲突。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <!-- /.modal -->
+
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="/"><b>LsAds</b></a>
+        </div>
+        <div class="register-box-body">
+            <p class="login-box-msg">@Model.RegisterTypeName 注册</p>
+            <input id="errorInfo" type="hidden" value="@ViewBag.ErrorInfo" />
+            <form asp-controller="Account" asp-action="Register" method="post" onsubmit="onSubmit()">
+                <input asp-for="RegisterType" hidden/>
+                <div class="input_outer">
+                    <span class="u_user"></span>
+                    <input asp-for="UserName" type="text" id="userName" class="text" placeholder="请输入用户名" data-toggle="tooltip" title="用户名以字母开头，长度在6~18之间，只能包含字符、数字、“_”和“.”">
+                </div>
+                <!--<div class="input_outer">
+        <span class="u_msn"></span>
+        <input asp-for="Email" type="text" id="emial" class="text" placeholder="请输入邮箱地址">
+    </div>-->
+                <div class="input_outer">
+                    <span class="u_tel"></span>
+                    <input asp-for="MobileNumber" type="tel" id="mobileNumber" class="text" placeholder="请输入手机号码" data-inputmask='"mask": "99999999999"'>
+                </div>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <div class="input_outer">
+                            <span class="u_msn"></span>
+                            <input asp-for="SmsCode" id="mVerifycode" type="text" class="text" placeholder="短信验证码" required />
+                        </div>
+                    </div>
+                    <div class="col-xs-5">
+                        <button title="点击获取验证码" id="btnCodeButton" type="button" class="btn btn-primary btn-block btn-flat" onclick="showModal()" disabled>获取验证码</button>
+                    </div>
+                </div>
+                <div class="input_outer">
+                    <span class="us_uer"></span>
+                    <input asp-for="Password" type="password" id="password" class="text" placeholder="请输入密码" data-toggle="tooltip" title="密码必须要同时含有数字和字母，且长度要在8-16位之间">
+                </div>
+                <div class="input_outer">
+                    <span class="us_uer"></span>
+                    <input asp-for="ConfirmPassword" type="password" id="confirmpassword" class="text" placeholder="请再次输入密码">
+                </div>
+                <div class="checkbox icheck">
+                    <label>
+                        <input type="checkbox" id="cbAgreement">&nbsp; &nbsp; &nbsp; &nbsp; 阅读并接受
+                        <a id="agreement" data-toggle="modal" data-target="#agreementModal">
+                            《注册用户服务协议》
+                        </a>
+                    </label>
+                </div>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-12">
+                        <button id="btnRegister" type="submit" class="btn btn-primary btn-block btn-flat" disabled="disabled" data-toggle="tooltip" title="请勾选“阅读并接受注册用户服务协议”" onclick="onSubmit()">注册</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <hr>
+            <a href="@Url.Action("Login", "Account")" class="text-center">已有账号</a>          
+        </div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/iCheck/icheck.min.js"></script>
+    <script src="~/lib/layer/layer.js"></script>
+    <script src="~/lib/jquery.cookie/src/jquery.cookie.js"></script>   
+    <script src="~/lib/inputmask/dist/inputmask/inputmask.js"></script>
+    <script src="~/lib/inputmask/dist/inputmask/bindings/inputmask.binding.js"></script> 
+    <script>
+        $(function () {
+          
+            $('#cbAgreement').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue',
+                increaseArea: '20%' // optional
+            });
+
+            $('#cbAgreement').on('ifChecked', function (event) {
+                $('#btnRegister').removeAttr('disabled title');
+            });
+
+            $('#cbAgreement').on('ifUnchecked', function (event) {
+                $('#btnRegister').attr('disabled', true).attr('title', '请勾选“阅读并接受注册用户服务协议”');
+            });
+
+            //显示服务端验证的错误信息
+            if ($("#errorInfo").val()) {
+                layer.tips($("#errorInfo").val(), "#btnRegister");
+            };
+            
+            function onSubmit() {
+                checkReg();
+                $("#btnRegister").attr({ "disabled": "disabled" });
+            };
+
+            checkCodeCookie();
+        });
+
+        function checkReg() {
+
+
+        }
+
+        function checkCodeCookie() {
+            /*防刷新：检测是否存在cookie*/
+            var btn = $('#btnCodeButton');
+            var count = $.cookie("captcha");
+            if (count) {
+                btn.val(count + '秒后可重新获取').attr('disabled', true).css('cursor', 'not-allowed');
+                var resend = setInterval(function () {
+                    count--;
+                    if (count > 0) {
+                        btn.html("重新发送(" + count + ")").attr('disabled', true).css('cursor', 'not-allowed');
+                        $.cookie("captcha", count, { path: '/', expires: (1 / 86400) * count });
+                    } else {
+                        clearInterval(resend);
+                        btn.html("获取验证码").removeClass('disabled').removeAttr('disabled style');
+                    }
+                }, 1000);
+            }
+            else {
+                clearInterval(resend);
+                btn.html("获取验证码").removeClass('disabled').removeAttr('disabled style');
+            }
+        }
+
+        function onBtnCodeButtonClick() {
+
+            var btn = $('#btnCodeButton');
+            var count = 60;
+            var resend = setInterval(function () {
+                count--;
+                if (count > 0) {
+                    btn.html("重新发送(" + count + ")").attr('disabled', true).css('cursor', 'not-allowed');
+                    $.cookie("captcha", count, { path: '/', expires: (1 / 86400) * count });
+                } else {
+                    clearInterval(resend);
+                    btn.html("获取验证码").removeAttr('disabled style');
+                }
+            }, 1000);
+            btn.attr('disabled', true).css('cursor', 'not-allowed');
+
+            $.ajax({
+                type: "Post",
+                data: {
+                    phoneNumber: $("#mobileNumber").val(),
+                    authCode: $('#authCode').val()
+                },
+                url: "/Account/SendSmsCode?_t=" + new Date().getTime(),    //获取数据的ajax请求地址
+                success: function (data) {
+                    if (data.result == 'Success') {
+                        layer.msg('验证码已发送，请留意短信！');
+                        $('#authModal').modal('hide');
+                    }
+                    else {
+                        layer.alert(data.message);
+                        clearInterval(resend);
+                        btn.html("获取验证码").removeAttr('disabled style');
+                        changeImg();
+                    }
+                }
+            });
+        }
+
+        function showModal() { 
+            var telphone = $("#mobileNumber").val();
+            if (!(/^1[3|4|5|7|8]\d\d{4}\d{4}$/.test(telphone))) {
+                layer.alert("手机号码格式不正确！");
+                $("#mobileNumber").focus();
+                return false;
+            }
+
+            $.ajax({
+                type: "Post",
+                data: {
+                    mobileNumber: $("#mobileNumber").val()
+                },
+                url: "/Account/CheckMobileNumber?_t=" + new Date().getTime(),    //获取数据的ajax请求地址
+                success: function (data) {
+                    if (data.result == 'Success') {
+                        changeImg();
+                        $('#authModal').modal();
+                        $('#authCode').focus();
+                    }
+                    else {
+                        layer.alert(data.message);
+                    }
+                }
+            });
+        }
+
+
+        //刷新验证码
+        function changeImg() {
+            //document.getElementById('authCodeImg').src = "GetAuthCode?" + Math.random();
+            $('#authCodeImg').attr("src", "GetAuthCode?" + Math.random());
+            $('#authCode').val('');
+        }
+    </script>
+</body>
+</html>

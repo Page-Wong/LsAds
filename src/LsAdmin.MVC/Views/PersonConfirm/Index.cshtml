@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.CurrentMenu = "PersonConfirmSteps";
+}
+
+@Html.Partial("/Views/Contract/_Confirm.cshtml")
+<div id="rootwizard">
+    <div class="navbar">
+        <div class="navbar-header">
+            <div class="container">
+                <ul>              
+                    <li><a href="#person" data-toggle="tab">个人实名认证</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content">      
+        @Html.Partial("_Person")     
+
+    </div>
+</div>
+
+@section css{
+    <link rel="stylesheet" href="~/lib/bootstrap-select/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap-duallistbox/dist/bootstrap-duallistbox.min.css">
+     <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+
+}
+@section scripts{
+    <script src="~/lib/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="~/lib/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/lib/bootstrap-duallistbox/dist/jquery.bootstrap-duallistbox.min.js"></script>
+    <script src="~/Views/PersonConfirm/Index.js"></script> 
+    <!-- bootstrap datepicker -->
+    <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        
+}

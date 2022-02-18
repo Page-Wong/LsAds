@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "";
+}
+@model Guid
+
+<input hidden name="programId" value="@Model" />
+<div id="player" align="center" style="background:#000; color:#FFF;width:100%;height:100%;">
+    <video id="myvideo" style="height: 100%;width:100%;display:block" controls autoplay src="/ProgramReview/PlayAsync?programId=@Model"/>
+</div>
+

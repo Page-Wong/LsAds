@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.CurrentMenu = "EquipmentRepairApply";
+}
+
+<div class="box box-primary">
+
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li id="btnStatusUnInuse" class="active"><a role="tab" data-toggle="tab"><i class="fa fa-bullhorn">待投放</i><span class="badge bg-yellow" id="StatusUnInuse"></span></a></li>
+            <li id="btnStatusInuse"><a role="tab" data-toggle="tab"><i class="fa  fa-legal">使用中</i><span class="badge bg-light-blue-active" id="StatusInuse"></span></a></li>
+            <li id="btnStatusRepairing"><a role="tab" data-toggle="tab"><i class="fa fa-check">维修中</i><span class="badge bg-green" id="StatusRepairing"></span></a></li>
+            <li id="btnStatusScrap"><a role="tab" data-toggle="tab"><i class="fa fa-check">报废</i><span class="badge bg-gray" id="StatusScrap"></span></a></li>
+        </ul>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <ul class="products-list product-list-in-box  todo-list" id="equipmentlist">            
+        </ul>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-left">
+        <ul id="apply_paging_part"></ul>
+    </div>
+    <!-- /.box-footer -->
+</div>
+
+
+@Html.Partial("_Apply")
+@Html.Partial("_Material")
+
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/Views/EquipmentRepairApply/Index.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+<script src="~/js/showPopoverInfo/placeInfo.js"></script>
+<script src="~/js/showPopoverInfo/equipmentmodelInfo.js"></script>
+}

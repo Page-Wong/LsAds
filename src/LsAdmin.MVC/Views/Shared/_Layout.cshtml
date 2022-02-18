@@ -1,0 +1,138 @@
+﻿@using Microsoft.AspNetCore.Http
+@using LsAdmin.Utility.Convert
+@using LsAdmin.Application.UserApp.Dtos
+
+@{
+    var user = ByteConvertHelper.Bytes2Object<UserDto>(Context.Session.Get("CurrentUserWithRoles"));
+    var avatar = "data:image/png;base64," + Convert.ToBase64String(user.Avatar);
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>LsAds</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" charset="utf-8">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css">
+    <!--皮肤-->
+    <link rel="stylesheet" href="~/css/skins/skin-blue.css">
+    <link rel="stylesheet" href="~/lib/jstree/dist/themes/default/style.min.css">
+    <link rel="stylesheet" href="~/lib/select2/select2.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="~/css/AdminLTE.css">
+    <!--<link rel="stylesheet" href="~/css/customerService/customerService.css">-->
+    @RenderSection("css", false)
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    @if (!user.UserRoles.Select(item => item.Role.Code).Contains(@RegisterModel.MARKETER_ROLE_NAME)) {
+        @Html.Partial("/Views/Role/_ApplyMarketer.cshtml")
+    }
+    @if (!user.UserRoles.Select(item => item.Role.Code).Contains(@RegisterModel.PLACEOWNER_ROLE_NAME)) {
+        @Html.Partial("/Views/Role/_ApplyPlaceOwner.cshtml")
+    }
+    @if (!user.UserRoles.Select(item => item.Role.Code).Contains(@RegisterModel.EQUIPMENTOWNER_ROLE_NAME)) {
+        @Html.Partial("/Views/Role/_ApplyEquipmentOwner.cshtml")
+    }
+    <div class="wrapper">
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>Ls</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>LsAds</b></span>
+            </a>
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <!-- Navbar Right Menu -->
+                @await Component.InvokeAsync("NavbarRightMenu")
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="@avatar" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>@user.Name</p>
+                        @{
+                            if (user.AuthStatus == 2) {
+                                <a>
+                                    已认证
+                                </a>
+                            }
+                            else if (user.AuthStatus == 0) {
+                                <a href="/CurrentUser/Auth" class="btn btn-warning btn-xs">
+                                    未认证
+                                </a>
+                            }
+                            else if (user.AuthStatus == 1) {
+                                <a href="/CurrentUser/AuthAuditing" class="btn btn-info btn-xs">
+                                    正在认证
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    @await Component.InvokeAsync("Navigation")
+                </ul>
+                <!-- /.sidebar-menu -->
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            @*<section class="content-header">
+                    <h1>
+                        Page Header
+                        <small>Optional description</small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                        <li class="active">Here</li>
+                    </ol>
+                </section>*@
+            <!-- Main content -->
+            <section class="content">
+                <!--当创建基于_Layout.cshtml布局页面的视图时，视图的内容会和布局页面合并，视图的内容会渲染呈现在@RenderBody()处-->
+                @RenderBody()
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Main Footer -->
+        @await Component.InvokeAsync("MainFooter")
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/app.js"></script>
+    <!--<script src="~/js/customerService/customerService.js"></script>-->
+    <script src="~/lib/layer/layer.js"></script>
+    <script src="~/lib/jstree/dist/jstree.js"></script>
+    <script src="~/lib/select2/select2.js"></script>
+    <script src="~/lib/select2/select2_locale_zh-CN.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

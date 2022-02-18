@@ -1,0 +1,25 @@
+﻿
+
+<div id="uploadModal" tabindex="-1" class="modal fade in" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h5 class="box-title" id="Title">上传媒体文件</h5>
+                <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" enctype='multipart/form-data'>
+                <input type="hidden" id="Id" />
+                <div class="box-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="Dir">上传文件</label>
+                        <div class="col-sm-10">
+                            <input class="form-control file" multiple id="Dir"  name="dir_file" type="file" placeholder="上传文件">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

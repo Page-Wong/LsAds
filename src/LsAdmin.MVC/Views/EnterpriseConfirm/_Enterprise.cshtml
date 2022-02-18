@@ -1,0 +1,80 @@
+﻿@model LsAdmin.Application.EnterpriseConfirmApp.Dtos.EnterpriseConfirmDto
+
+<div class="tab-pane" id="enterprise">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <form enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="Name">企业名称（*必填，不可为空）：</label>
+                <input type="text" class="form-control" id="Name" asp-for="Name" placeholder="请按照营业执照填写企业名称">
+            </div>
+            <div class="form-group">
+                <label for="RegisteredNumber">营业执照注册号（*必填，不可为空）：</label>
+                <input type="text" class="form-control" id="RegisteredNumber" asp-for="RegisteredNumber"  placeholder ="请按照营业执照填写">
+            </div>
+            <div class="form-group">
+                <label for="LicenseAddress">营业执照所在地（*必填，不可为空）：</label>
+                <input type="text" class="form-control" id="LicenseAddress" asp-for="LicenseAddress" placeholder="请按照营业执照填写">
+            </div>
+            <div class="form-group">
+                <label for="Period">营业期限（*必填，不可为空）：</label>      
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="Period" asp-for="Period">
+                </div>
+                </div>
+            <div class="form-group">
+                <label for="Location">常用地址（*必填，不可为空）：</label>
+                <input type="text" class="form-control" id="Location" asp-for="Location" placeholder="请按照营业执照填写">
+            </div>
+            <div class="form-group">
+                <label for="Phone">联系电话：</label>
+                <input type="tel" class="form-control" id="Phone" asp-for="Phone" placeholder="分机号可不填">
+            </div>
+            <div class="form-group">
+                <label for="DuplicateLicenseScan">营业执照副本扫描件：</label>
+                <input type="file" id="DuplicateLicenseScan" name="DuplicateLicenseScanFile" >
+            </div>
+            <div>
+                <text>证件要求：</text>
+                <text>1.必须为清晰彩色原件扫描件或数码件。图片大小不超过2M。</text>
+                <text>2.必须在有效期内且年检章齐全（当年成立的公司可无年检章）。</text>
+                <text>3.必须为中国大陆工商局颁发。</text>
+            </div>
+            <div class="form-group">
+                <label for="DuplicateLicenseSeal">加盖公章的副本：</label>
+                <input type="file" id="DuplicateLicenseSeal" name="DuplicateLicenseSealFile">
+            </div>
+            <div class="form-group">
+                <label for="OrganizationCode">组织机构代码：</label>
+                <input type="text" class="form-control" id="OrganizationCode" asp-for="OrganizationCode" placeholder ="请按照营业执照填写">
+            </div>
+            <div class="form-group">
+                <label for="ManagementScope">营业范围：</label>
+                <input type="text" class="form-control" id="ManagementScope" asp-for="ManagementScope" placeholder="请按照营业执照填写">
+            </div>
+            <div class="form-group">
+                <label for="RegisteredCapital">注册资金：</label>
+                <input type="text" class="form-control" id="RegisteredCapital" asp-for="RegisteredCapital" placeholder="请以万为单位填写">
+            </div>
+            <div class="form-group">
+                <label for="Fax">传真：</label>
+                <input type="text" class="form-control" id="Fax" placeholder="传真" asp-for="Fax">
+            </div>
+            <div class="form-group">
+                <label>
+                    点击「确认提交」按钮，即代表你同意
+                    <a href="#" class="btn-link" data-toggle="modal" data-target="#comfirmModal">
+                    《实名认证服务协议》
+                    </a>
+                </label>
+            </div>
+
+            <button id="btnSave" class="btn btn-primary" type="button">确认提交</button>
+        </form>
+    </div>
+
+</div>
+</div>

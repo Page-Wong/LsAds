@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.CurrentMenu = "AdminEquipment";
+}
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">设备地图</h3>
+    </div>
+    <div class="box-body">
+        <div class="col-md-9">
+            <div id="allmap" class="fill-content"></div>
+        </div>
+        <div class="col-md-3 fill-content" style="border-left:1px solid #ccc;">
+            <div class="map-list-content" style="overflow-y:scroll;">
+                <ul id="map_list" class="nav nav-pills nav-stacked"></ul>
+            </div>
+            <div class="paging-toolbar">
+                <ul id="grid_paging_part"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+@section css{
+    <style type="text/css">
+    </style>
+}
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=eclcD0NGxIN9piwGX2qj9dWDoOuOPAUl"></script>
+    <script>
+
+        var icon = new BMap.Symbol(BMap_Symbol_SHAPE_POINT, {
+            scale: 2,//图标缩放大小
+            fillColor: "blue",//填充颜色
+            fillOpacity: 0.8//填充透明度
+        });
+        var pageSize = 100;
+        var maxLat, maxLng, minLat, minLng;
+        var map;
+        var geoc;
+        $(function () {
+            //alert($('.content').height());
+            $('.fill-content').css('height', $(window).height() - $('.main-header').height() - $('.main-footer').height() - 145);
+            $('.map-list-content').css('height', $('.fill-content').height() - 80);
+            // 百度地图API功能
+            map = new BMap.Map("allmap");
+            geoc = new BMap.Geocoder();
+            var point = new BMap.Point(113.331087, 23.112216);
+            map.centerAndZoom(point, 15);
+            /*new BMap.Geolocation().getCurrentPosition(function (r) {
+                if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                    map.centerAndZoom(r.point, 15);
+                    refreshMapRange();
+                }
+            }, { enableHighAccuracy: true })*/
+            //map.setMapStyle({ style: 'light' });
+            map.enableScrollWheelZoom();
+            map.addControl(new BMap.ScaleControl({ anchor: BMAP_ANCHOR_TOP_LEFT }));
+            map.addControl(new BMap.NavigationControl());
+            map.addControl(new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL }));
+            map.addEventListener("dragend", refreshMapRange);
+            map.addEventListener("zoomend", refreshMapRange);
+            refreshMapRange();
+        })
+
+        function refreshMapRange(e) {
+            var bs = map.getBounds();   //获取可视区域
+            var bssw = bs.getSouthWest();   //可视区域左下角
+            var bsne = bs.getNorthEast();   //可视区域右上角
+            var pc = map.getCenter(); //获取中心点坐标
+            maxLng = bsne.lng;
+            minLng = bssw.lng;
+            maxLat = bsne.lat;
+            minLat = bssw.lat;
+            loadMap(1, pageSize);
+        }
+
+        function loadMap(startPage, pageSize) {
+
+            $.get(
+                "/AdminEquipment/GetPageEquipmentList?startPage=" + startPage +
+                "&pageSize=" + pageSize +
+                "&MaxLat=" + maxLat +
+                "&MaxLng=" + maxLng +
+                "&MinLat=" + minLat +
+                "&MinLng=" + minLng +
+                "&_t=" + new Date().getTime(),
+                function (data) {
+                    map.clearOverlays();
+                    $("#map_list").html("");
+                    $.each(data.rows, function (i, item) {
+                        var pt = new BMap.Point(item.mapPointX, item.mapPointY);                        
+                        var marker = addMapOverlay(pt);
+                        marker.addEventListener("click", function () {
+                            openMapInfoWindow(item, this);
+                        });
+                        item.playCount = Math.floor(Math.random() * 999)
+                        addList(item, marker);
+                    });
+
+                    var elment = $("#grid_paging_part"); //分页插件的容器id
+                    if (data.rowCount > 0) {
+                        var options = { //分页插件配置项
+                            bootstrapMajorVersion: 3,
+                            currentPage: startPage, //当前页
+                            numberOfPages: data.rowsCount, //总数
+                            totalPages: data.pageCount, //总页数
+                            onPageChanged: function (event, oldPage, newPage) { //页面切换事件
+                                loadMap(newPage, pageSize);
+                            }
+                        }
+                        elment.bootstrapPaginator(options); //分页插件初始化
+                    }
+                }
+            );
+        }
+
+        function addMapOverlay(pt) {
+            //设置marker图标为水滴
+            var marker = new BMap.Marker(pt);
+            map.addOverlay(marker);              // 将标注添加到地图中
+            return marker;
+        }
+
+        function addList(item, marker) {
+            var address = '';//item.provinceName + item.cityName + item.districtName + item.street + item.streetNumber;
+            geoc.getLocation(marker.getPosition(), function (rs) {
+                var addComp = rs.addressComponents;
+                address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+
+                var li = '<li id="map_list_' + item.id + '"><a href="javascript:void(0)">';
+                li += '<p><i class="fa fa-circle text-green"></i> ' + item.name + ' <span class="label label-primary pull-right">今日播放 ' + item.playCount+' 次</span></p>'
+                li += '<p>' + address + '</p>';
+                li += '</a></li>';
+                $("#map_list").append(li);            // 将标注添加到地图中
+                $('#map_list_' + item.id).click(function () {
+                    $('#map_list').children('li').removeClass('active');
+                    $(this).addClass('active');
+                    openMapInfoWindow(item, marker);
+                });
+            });
+        }
+
+        function openMapInfoWindow(item, marker) {
+            var address = '';//item.provinceName + item.cityName + item.districtName + item.street + item.streetNumber;
+            geoc.getLocation(marker.getPosition(), function (rs) {
+                var addComp = rs.addressComponents;
+                address = addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+
+                var sContent =
+                    '<div class="box box-solid">' +
+                    '    <div class="box-header  with-border">' +
+                    '        <h4><i class="fa fa-circle text-green"></i> ' + item.name + '</h4>' +
+                    '    </div>' +
+                    '    <div class="box-body">' +
+                    '<div class="info-box" style="width:400px">' +
+                    '    <span class="info-box-icon bg-green"><i class="fa fa-desktop"></i></span>' +
+                    '    <div class="info-box-content">' +
+                    '       <span class="text-muted pull-right">开机时间 08:36:46</span>' +
+                    '        <span class="info-box-text">今日播放</span>' +
+                    '        <span class="info-box-number">' + item.playCount +' 次</span>' +
+                    '        <span class="info-box-text">' +
+                    address +
+                    '        </span>' +
+                    '     </div>' +
+                    '</div>';
+                '    </div>' +
+                    '</div>';
+
+                var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+                marker.openInfoWindow(infoWindow);      // 打开信息窗口
+            });
+        }
+    </script>
+}

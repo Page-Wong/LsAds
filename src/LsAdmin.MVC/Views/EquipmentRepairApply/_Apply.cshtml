@@ -1,0 +1,56 @@
+﻿<div id="addApplicationModal" tabindex="-1" class="modal fade in" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h5 class="box-title" id="Title"></h5>
+                <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="form-horizontal" enctype='multipart/form-data'>
+                <input type="hidden" id="Id" />
+                <input type="hidden" id="EquipmentId" />
+                <input type="hidden" id="PlaceId" />
+                <input type="hidden" id="BeforeMaterial" />
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="">问题描述</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="ProblemDescription" placeholder="此项为必填项。如：设备白屏不能使用，需维修。" style="padding:0px">
+                        </div>
+                    </div>
+                    <!--
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="">设备故障素材</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="BeforeMaterial"  name="BeforeMaterial" style="padding:0px">
+                        </div>
+                    </div>
+                   -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="">场所联系人</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="PlaceContact" placeholder="请填写场所联系人姓名" style="padding:0px">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="">场所联系电话</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="PlaceContactPhone" type="tel" placeholder="请填写场所联系人手机号码或场所座机号码" style="padding:0px">
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="box-footer">
+                        <div class="pull-right box-tools">
+                            <button id="btnSave" class="btn btn-primary" type="button">保存</button>
+                            <button class="btn btn-default" type="button" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                
+            </form>
+        </div>
+    </div>
+</div>

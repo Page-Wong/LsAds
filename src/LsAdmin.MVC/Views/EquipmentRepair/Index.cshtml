@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.CurrentMenu = "EquipmentRepair";
+}
+
+
+<div class="box box-primary">
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist" id="tabs" >
+            <li id="btnStatusUnConfirmed"  class="active" disabled><a role="tab" data-toggle="tab"><i class="fa fa-bullhorn">待确认</i><span class="badge bg-yellow" id="SpanStatusUnConfirmed"></span></a></li>
+            <li id="btnStatusConfirmed"><a role="tab" data-toggle="tab"><i class="fa  fa-legal">已确认</i><span class="badge bg-light-blue-active" id="SpanStatusConfirmed"></span></a></li>
+            <li id="btnStatusComplete"><a role="tab" data-toggle="tab"><i class="fa fa-check">已完成</i><span class="badge bg-green" id="SpanStatusComplete"></span></a></li>
+        </ul>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+
+        <ul class="products-list product-list-in-box  todo-list" id="equipmentrepairlist">
+              <!-- 
+            <li class="item">
+                     <a > <i class="fa fa-spin fa-refresh"></i>&nbsp; 数据加载中</a>
+                <div class="product-img">
+                    <img src="/EquipmentModel/GetThumbnail?id=08d56ece-c585-9a95-c5da-5bba039cb53b" alt="Product Image">
+                </div>
+                <div class="product-info">
+                    <a href="javascript:void(0)" class="products-title ">Samsung TV </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:void(0)" class="product-title">王府井百货(广东省东莞市石龙)</a>
+                    <small class="label label-warning">待确认</small> 
+                    <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+                    <small class="label label"><i class="fa fa-clock-o"></i>2018-02-24 16:10:55 维修</small>
+                    <span class="product-description text-uppercase text-red text-bold"> 不能开机坏掉了..........</span>                 
+                </div>
+                <div class="tools">
+                    <button class="btn btn-info btn-xs" href="javascript:;" onclick=""> <i class="fa fa-legal"></i>确认</button>
+                    <button class="btn btn-info btn-xs" href="javascript:;" onclick=""> <i class="fa fa-check"></i>完成</button>
+                </div>
+            </li>
+                  -->
+        </ul>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-left">
+        <ul id="grid_paging_part"></ul>
+    </div>
+    <!-- /.box-footer -->
+</div>
+<!-- /.box -->
+@Html.Partial("_Complete")
+@Html.Partial("_Confirmed")
+
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/Views/EquipmentRepair/Index.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="~/js/showPopoverInfo/placeInfo.js"></script>
+    <script src="~/js/showPopoverInfo/equipmentmodelInfo.js"></script>
+
+}
+

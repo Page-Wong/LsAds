@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.CurrentMenu = "RoleApplyAudit";
+}
+
+@Html.Partial("/Views/Pay/_OrderRefundModal.cshtml")
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">角色申请审核</h3>
+                <div class="pull-right box-tools">
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="table-scrollable">
+                    <table id="mediaTable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="table-checkbox" style="width:40px;text-align:center;"><input id="checkAll" class="group-checkable" type="checkbox"></th>
+                                <th tabindex="0" aria-label="">
+                                    状态
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    申请时间
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    用户
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    角色
+                                </th>
+                                <th tabindex="0" style="width: 50px;" aria-label="">
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                    <div class="paging-toolbar">
+                        <ul id="grid_paging_part"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section css{
+}
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/js/appPay/pay.js"></script>
+    <script>
+        var pageSize = 15;
+        $(function () {
+            loadTables(1, pageSize);
+        });
+
+        //加载列表数据
+        function loadTables(startPage, pageSize) {
+            $("#tableBody").html("");
+            $("#checkAll").prop("checked", false);
+            $.ajax({
+                type: "GET",
+                url: "/Role/GetRoleApplyAllPageList?startPage=" + startPage + "&pageSize=" + pageSize + "&_t=" + new Date().getTime(),
+                success: function (data) {
+                    $.each(data.rows, function (i, item) {
+                        var tr = "<tr>";
+                        tr += "<td align='center'><input type='checkbox' class='checkboxs' value='" + item.id + "'/></td>";
+                        tr += "<td>" + (item.statusString == null ? "" : item.statusString) + "</td>";
+                        tr += "<td>" + (item.applyTime == null ? "" : item.applyTime) + "</td>";
+                        tr += "<td>" + (item.applyUser == null && item.applyUser.userName == null ? "" : item.applyUser.userName) + "</td>";
+                        tr += "<td>" + (item.role == null && item.role.name == null ? "" : item.role.name) + "</td>";
+                        tr += "<td>"
+
+                        if (item.status == 1) {
+                            tr += "<button class='btn btn-primary btn-xs' href='javascript:;' onclick='audit(\"" + item.id + "\")'><i class='fa fa-legal'></i> 审核 </button>"
+                        }
+                        tr += "</td > "
+                        tr += "</tr>";
+                        $("#tableBody").append(tr);
+                    })
+                    var elment = $("#grid_paging_part"); //分页插件的容器id
+                    if (data.rowCount > 0) {
+                        var options = { //分页插件配置项
+                            bootstrapMajorVersion: 3,
+                            currentPage: startPage, //当前页
+                            numberOfPages: data.rowsCount, //总数
+                            totalPages: data.pageCount, //总页数
+                            onPageChanged: function (event, oldPage, newPage) { //页面切换事件
+                                loadTables(newPage, pageSize);
+                            }
+                        }
+                        elment.bootstrapPaginator(options); //分页插件初始化
+                    }
+                    $("table > tbody > tr").click(function () {
+                        $("table > tbody > tr").removeAttr("style")
+                        $(this).attr("style", "background-color:#beebff");
+                    });
+                }
+            })
+        }
+        //全选
+        function checkAll(obj) {
+            $(".checkboxs").each(function () {
+                if (obj.checked == true) {
+                    $(this).prop("checked", true)
+
+                }
+                if (obj.checked == false) {
+                    $(this).prop("checked", false)
+                }
+            });
+        };
+        //审核
+        function audit(id) {
+            layer.confirm('请审核', {
+                btn: ['通过', '不通过', '取消审核'] //按钮
+            }, function () {
+                auditSubmit(id, 1);
+            },
+                function () {
+                    auditSubmit(id, 0);
+                },
+                function () {
+                    layer.closeAll();
+                });
+        };
+
+        function auditSubmit(id, audit) {
+
+            $.ajax({
+                type: "POST",
+                url: "/Role/RoleApplyAudit?&_t=" + new Date().getTime(),
+                data: { roleApplyId: id, audit: audit },
+                success: function (data) {
+                    if (data.result == 'Success') {
+                        loadTables(1, pageSize);
+                        layer.closeAll();
+                    } else {
+                        layer.alert(data.message);
+                    }
+                }
+            })
+        }
+    </script>
+}

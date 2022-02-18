@@ -1,0 +1,13 @@
+﻿@model LsAdmin.Application.ProgramApp.Dtos.ProgramDto
+<tr id='id_@Model.Id'>
+    <td align='center'><input type='radio' id='select_@Model.Id' name='post_program' value='@Model.Id' /></td>
+    <td>@ViewBag.RowIndex</td>
+    <td>@Model.DisplayName</td>
+    <td>@Model.Duration</td>
+    <td>@Model.Width * @Model.Height</td>
+    <td>
+        <button class='btn btn-info btn-xs' onclick='ProgramTable.select("@Model.Id","@Model.DisplayName","@Model.Duration","@Model.Width","@Model.Height")'> <i class='fa fa-check'></i> 选择 </button>
+        <button class='btn btn-info btn-xs' onclick='ProgramTable.edit("@Model.Id")'> <i class='fa fa-edit'></i> 编辑 </button>
+        <button class='btn btn-danger btn-xs' onclick='ProgramTable.deleteSingle("@Model.Id")'><i class='fa fa-trash-o'></i> 删除 </button>
+    </td>
+</tr>

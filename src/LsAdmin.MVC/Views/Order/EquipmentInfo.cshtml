@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.CurrentMenu = "OrderEquipmentInfo";
+}
+
+<div id="page" class="">
+    <div id="content" data-cat="J_Cat" data-type="normal" data-spm-anchor-id="a220o.1000855.0.i1.4cf0200azxH5y3">
+        <div id="detail">
+            <div id="J_DetailMeta" class="tm-detail-meta tm-clear" role="form">
+            </div>
+        </div>
+        <div id="bd">
+            <input type="hidden" id="orderId" />
+            <div class="grid-s5m0 tm-clear">
+                <div class="col-main tm-clear">
+                    <div id="mainwrap" class="main-wrap" role="main">
+                        <div id="J_TabBarBox" style="width: 788px;">
+                            <ul id="J_TabBar" class="tabbar tm-clear">
+                                <li tabindex="0" role="tab" class="tm-selected" aria-selected="true">
+                                    <a tabindex="-1" href="#description" rel="nofollow" hidefocus="true" data-index="0">设备详情</a>
+                                </li>
+                                <!--li tabindex="0" role="tab" aria-selected="false">
+                                    <a tabindex="-1" href="#J_Reviews" rel="nofollow" hidefocus="true" data-index="1">累计评价 <em class="J_ReviewsCount" style="display: inline;">0</em></a>
+                                </li-->
+                             </ul>
+                        </div>
+                        <div id="attributes" class="attributes">
+                            <div class="attributes-list" id="J_AttrList">
+
+                            </div>
+                        </div>
+                        <div id="description" class="J_DetailSection tshop-psm tshop-psm-bdetaildes">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("/Views/Order/_ShoppingCart.cshtml")
+
+@section css{
+    <link rel="stylesheet" href="~/css/order.css">
+    <link rel="stylesheet" href="~/css/tb/video.css">
+    <link rel="stylesheet" href="~/css/tb/detail.css" />
+    <link rel="stylesheet" href="~/css/tb/itemDetail.css"/>
+    <link rel="stylesheet" href="~/css/iconfont/iconfont.css">
+}
+
+@section scripts{
+    <script src="~/Views/Order/EquipmentInfo.js"></script>
+    <script src="~/Views/Order/ShoppingCart.js"></script>
+}

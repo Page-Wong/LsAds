@@ -1,0 +1,103 @@
+﻿<!-- 模态框（Modal） -->
+<div class="modal fade" id="awaitingPaymentModal" tabindex="-1" data-keyboard="false" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">请在新打开的网银页面完成付款</h4>
+            </div>
+            <div class="modal-body">
+                <h3>
+                    支付遇到问题？
+                </h3>
+                <h4>
+                    1.银行已扣款，但没有成功提示？
+                </h4>
+                <p>
+                    这是由于网络传输延迟问题造成，请不要担心。我们会在第二个工作日和银行对账后，为您恢复此交易。
+                </p>
+                <h4>
+                    2.银行没有扣款？
+                </h4>
+                <p>
+                    建议您重新支付一次，如果仍不成功，请拨打电话0769-86610866进行咨询。
+                </p>
+                <h4>
+                    3.银行重复扣款？
+                </h4>
+                <p>
+                    这是由于网络传输延迟问题造成，请不要担心。我们会在第二个工作日和银行对账后，将为您退还重复扣款项。
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" href="/Order/List">已完成付款</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#tradeMethodModal">重新付款</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div class="modal fade" id="tradeMethodModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">请选择支付类型</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input_outer">
+                    <form asp-action="Pay" asp-controller="SettlementCenter" method="post" class="form-horizontal" role="form" id="payForm">
+                        支付金额：
+                        <input type="number" class="form-control" name="totalAmout" id="totalAmout" readonly placeholder="请输入支付金额，单位 元" />
+                        <input type="hidden" name="orderNo" class="form-control" id="orderNo" value="" />
+                        <input type="hidden" name="subject" class="form-control" id="subject" value="付款" />
+                        <input type="hidden" name="orderId" class="form-control" id="payOrderId" value="" />
+                        <input type="hidden" name="tradeMethod" class="form-control" id="tradeMethod" value="-1" />
+                    </form>
+                </div>
+                <a href="javascript:;" id="alipay" onclick="alipay()">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon"><i class="fa fa-rmb"></i></span>
+
+                        <div class="info-box-content">
+                            <br />
+                            <span class="info-box-number">支付宝</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+
+                <a href="javascript:;" id="pointpay" onclick="pointpay()">
+                    <div class="info-box bg-green">
+                        <span class="info-box-icon"><i class="fa fa-genderless"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">积分支付</span>
+                            <span class="info-box-number" id="pointPayExpense">0</span>
+
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-description">
+                                我的可用积分：<span id="pointPayBalance">0</span>
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/appPay/pay.js"></script>

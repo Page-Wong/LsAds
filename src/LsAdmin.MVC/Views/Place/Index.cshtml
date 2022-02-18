@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewBag.CurrentMenu = "PlaceInfo";
+}
+<div class="col-md-12 box-body">
+
+    <div class="col-md-12 nav-tabs-custom">
+
+            <ul class="nav nav-tabs" role="tablist" id="PlaceTypeTabs"></ul>  
+            <ul class="products-list product-list-in-box  todo-list" id="Placelist"></ul>
+            <div class="paging-toolbar">
+                <ul id="list_paging_part"></ul>
+            </div>
+       
+    </div>
+</div>
+@Html.Partial("_Edit")
+@Html.Partial("_Material")
+@Html.Partial("_EditMaterial")
+
+@section css{
+    <link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.min.css">
+    }
+
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+<script src="~/Views/Place/Index.js"></script>
+<script src="~/js/administrativeAreaSelector/select.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+}

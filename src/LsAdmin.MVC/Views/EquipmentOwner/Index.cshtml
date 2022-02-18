@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.CurrentMenu = "EquipmentOwner";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div>
+                <ul class="nav nav-tabs" role="tablist" id="tabs">
+                    <li id="btnStatusAll" class="active" disabled><a role="tab" data-toggle="tab"><i class="fa fa- fa-reorder">全部</i><span class="badge bg-black" id="SpanStatusAll"></span></a></li>
+                    <li id="btnSTATUSUNINUSE" disabled><a role="tab" data-toggle="tab"><i class="fa  fa-hourglass-2">待投放</i><span class="badge bg-yellow" id="SpanSTATUSUNINUSE"></span></a></li>
+                    <li id="btnSTATUSINUSE"><a role="tab" data-toggle="tab"><i class="fa   fa-send">已投放</i><span class="badge bg-light-blue-active" id="SpanSTATUSINUSE"></span></a></li>
+                    <li id="btnSTATUSREPAIRING"><a role="tab" data-toggle="tab"><i class="fa fa-wrench">维修中</i><span class="badge bg-green" id="SpanSTATUSREPAIRING"></span></a></li>
+                    <li id="btnSTATUSSCRAP"><a role="tab" data-toggle="tab"><i class="fa   fa-trash">报废</i><span class="badge bg-red" id="SpanSTATUSSCRAP"></span></a></li>
+                </ul>
+            </div>
+            <div class="box-header with-border">
+
+                <div class="pull-right box-tools" hidden>
+                    <button id="btnAddEquipment" class="btn btn-primary" type="button" data-original-title="新增设备" data-toggle="tooltip" data-widget="">
+                        <i class="fa fa-plus-square"></i>&nbsp;&nbsp;新增设备
+                    </button>
+                    <button id="btnDeleteEquipment" title="" class="btn btn-danger" type="button" data-original-title="批量删除" data-toggle="tooltip" data-widget="">
+                        <i class="fa fa-times"></i>&nbsp;&nbsp;批量删除
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <ul class="products-list product-list-in-box  todo-list" id="myEquipmentList"></ul>
+                <div class="table-scrollable" hidden>
+                    <table id="mediaTable" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid" aria-describedby="sample_2_info">
+                        <thead>
+                            <tr role="row">
+                                <th tabindex="0" aria-label="" style="width: 30px">
+                                    #
+                                </th>
+                                <th class="table-checkbox" style="width:40px;text-align:center;"><input id="checkAllEquipment" class="group-checkable" type="checkbox"></th>
+                                <th tabindex="0" aria-label="" style="width: 150px">
+                                    型号
+                                </th>
+                                <th tabindex="0" aria-label="" style="width: 350px">
+                                    状态信息
+                                </th>
+                                <th tabindex="0" aria-label="" style="width: 350px">
+                                    型号详细信息
+                                </th>
+                                <th tabindex="0" aria-label="">
+                                    所在产所信息
+                                </th>
+                                <th tabindex="0" style="width: 80px;" aria-label="">
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+
+                </div>
+
+                <div class="paging-toolbar">
+                    <ul id="grid_paging_part"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_Launch")
+@Html.Partial("_EditEquipmentInfo")
+@Html.Partial("_MonitorModal")
+
+
+@section scripts{
+    <script src="~/lib/bootstrap-paginator/build/bootstrap-paginator.min.js"></script>
+    <script src="~/Views/EquipmentOwner/Index.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+    <script src="~/lib/bootstrap-fileinput/js/locales/zh.js"></script>
+    <script src="~/js/showPopoverInfo/placeInfo.js"></script>
+    <script src="~/js/showPopoverInfo/equipmentmodelInfo.js"></script>
+}

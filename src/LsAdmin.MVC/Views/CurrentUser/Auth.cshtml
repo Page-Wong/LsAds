@@ -1,0 +1,77 @@
+﻿
+<div class="modal fade" id="userAuthModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">请选择认证类型</h4>
+            </div>
+            <div class="modal-body">
+                <a href="/PersonConfirm">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon"><i class="fa fa-user"></i></span>
+
+                        <div class="info-box-content">
+                            <br />
+                            <span class="info-box-number">个人认证</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+
+                <a href="/EnterpriseConfirm">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon"><i class="fa fa-building"></i></span>
+
+                        <div class="info-box-content">
+                            <br />
+                            <span class="info-box-number">企业认证</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+            </div>
+            <div class="modal-footer">
+                <p>若您有任何疑问，可查看<a class="btn-link"  href="#">实名认证指引</a></p>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="box box-default">
+    <!-- Main content -->
+    <section class="content">
+        <div class="error-page">
+            <h2 class="headline"><img src="~/images/review_cat_128px.png" /></h2>            
+            <div class="error-content">
+                <h3><i class="fa fa-paper-plane text-light-blue"></i> 实名认证</h3>
+                <hr />
+                <p>
+                    你可以选择<b>个人认证</b>或<b>企业认证</b>，不同认证有不同的服务权限
+                </p>
+                <p>
+                    <b>个人认证</b>：认证信息为个人，可以发布广告。
+                </p>
+                <p>
+                    <b>企业认证</b>：认证信息为企业或组织，也可以发布广告。
+                </p>
+                <p>
+                    系统检测到您的当前帐号尚未进行实名认证，请进行：
+                </p>
+                <a href="#" class="btn btn-info btn-block" data-toggle="modal" data-target="#userAuthModal">实名认证</a>
+            </div>
+            <!-- /.error-content -->
+        </div>
+        <!-- /.error-page -->
+    </section>
+    <!-- /.content -->
+</div>
+@section css{
+
+    
+}

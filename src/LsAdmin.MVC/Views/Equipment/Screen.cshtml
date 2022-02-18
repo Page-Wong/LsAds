@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.CurrentMenu = "Equipment";
+}
+
+<input hidden name="id" value="@Html.ViewContext.HttpContext.Request.Query["id"]"/>
+<div class="row">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">远程屏幕</h3>
+        </div>
+        <div class="box-body">
+            <img id="img" onclick="changeImg()">
+        </div>
+        <div class="box-footer">
+            <input type="checkbox" name="autoRefresh"/><label for="autoRefresh"> 自动刷新 </label>
+            <button class="btn btn-adn pull-right" id="manualRefresh" onclick="changeImg()">手动刷新</button>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var refreshInterval;
+        var autoLoad = false;
+        $(function () {
+            changeImg();
+
+            $('#img').on('load', function () {
+                if (autoLoad) {
+                    changeImg();
+                }
+            });
+            $("input[name='autoRefresh']").change(function () {
+                //clearInterval(refreshInterval);
+                if ($(this).is(':checked')) {
+                    autoLoad = true;
+                    $("#manualRefresh").attr("disabled", true);                    
+                    changeImg();
+                }
+                else {
+                    autoLoad = false;
+                    $("#manualRefresh").removeAttr("disabled");
+                }
+            });
+        });
+
+        function changeImg() {
+            $('#img').attr("src", "/Equipment/GetScreen?id="+$("input[name='id']").val()+"&_t=" + new Date().getTime());
+        }
+    </script>
+}
